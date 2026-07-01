@@ -119,3 +119,31 @@ a:hover {
   flex-direction: column;
   min-height: 100vh;
 }
+
+/* Hover Utilities */
+.hover-gold:hover {
+  color: var(--accent-gold) !important;
+}
+
+.hotel-card-hover {
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.hotel-card-hover:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15) !important;
+}
+
+/* Fix Bootstrap collapse styling on dark mode if needed */
+.navbar-toggler-icon {
+  filter: invert(0.5);
+}
+@media (prefers-color-scheme: dark) {
+  .hotel-card-hover:hover {
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5) !important;
+  }
+  .navbar-toggler-icon {
+    filter: invert(0.8);
+  }
+}
+
