@@ -1,20 +1,54 @@
 /*
   UI/UX Pro Max: Marriott-Inspired Global Styles
-  Supports Minimalist Light Mode & Elegant Dark Mode
+  Premium Elegance: Dark Tones, Golds & Browns
 */
 
+/* Local Fonts Definition */
+@font-face {
+  font-family: 'Inter';
+  font-style: normal;
+  font-weight: 300;
+  font-display: swap;
+  src: url('/fonts/inter-v12-latin-300.woff2') format('woff2'),
+       url('/fonts/inter-v12-latin-300.woff') format('woff');
+}
+@font-face {
+  font-family: 'Inter';
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: url('/fonts/inter-v12-latin-regular.woff2') format('woff2'),
+       url('/fonts/inter-v12-latin-regular.woff') format('woff');
+}
+@font-face {
+  font-family: 'Inter';
+  font-style: normal;
+  font-weight: 500;
+  font-display: swap;
+  src: url('/fonts/inter-v12-latin-500.woff2') format('woff2'),
+       url('/fonts/inter-v12-latin-500.woff') format('woff');
+}
+@font-face {
+  font-family: 'Inter';
+  font-style: normal;
+  font-weight: 700;
+  font-display: swap;
+  src: url('/fonts/inter-v12-latin-700.woff2') format('woff2'),
+       url('/fonts/inter-v12-latin-700.woff') format('woff');
+}
+
 :root {
-  /* Marriott Inspired Color Palette - Light Mode (Minimalist) */
-  --bg-primary: #ffffff;
-  --bg-secondary: #f7f7f7;
-  --text-primary: #1c1c1c;
-  --text-secondary: #5a5a5a;
+  /* Premium Dark / Brown / Gold Palette */
+  --bg-primary: #14100c;
+  --bg-secondary: #221a14;
+  --text-primary: #f9f6f0;
+  --text-secondary: #d8c3a5;
   
-  --accent-gold: #8c7335;
-  --accent-gold-hover: #a89569;
+  --accent-gold: #c29b62;
+  --accent-gold-hover: #e3be85;
   
-  --border-color: #e2e2e2;
-  --shadow-subtle: 0 4px 20px rgba(0, 0, 0, 0.05);
+  --border-color: #3b2c22;
+  --shadow-subtle: 0 4px 20px rgba(0, 0, 0, 0.4);
 
   /* Bootstrap Variable Overrides for Klar theme */
   --bs-body-bg: var(--bg-primary);
@@ -22,48 +56,11 @@
   --bs-primary: var(--accent-gold);
   
   /* Typography */
-  --font-sans: 'Inter', system-ui, -apple-system, sans-serif;
-  --font-serif: 'Playfair Display', Georgia, serif;
+  --font-sans: 'Inter', system-ui, -apple-system, sans-serif !important;
+  --font-serif: 'Inter', Georgia, serif !important; /* Usamos Inter como serif temporal por falta de otra local */
 }
 
-/* Dark Mode (Elegant) */
-@media (prefers-color-scheme: dark) {
-  :root {
-    --bg-primary: #121212;
-    --bg-secondary: #1e1e1e;
-    --text-primary: #eaeaea;
-    --text-secondary: #a0a0a0;
-    
-    --accent-gold: #c9ad70;
-    --accent-gold-hover: #e0c894;
-    
-    --border-color: #333333;
-    --shadow-subtle: 0 4px 20px rgba(0, 0, 0, 0.3);
 
-    /* Bootstrap Variable Overrides for Klar theme */
-    --bs-body-bg: var(--bg-primary);
-    --bs-body-color: var(--text-primary);
-    --bs-primary: var(--accent-gold);
-  }
-}
-
-/* Data-theme attribute support for manual toggling if needed */
-[data-theme='dark'] {
-  --bg-primary: #121212;
-  --bg-secondary: #1e1e1e;
-  --text-primary: #eaeaea;
-  --text-secondary: #a0a0a0;
-  
-  --accent-gold: #c9ad70;
-  --accent-gold-hover: #e0c894;
-  
-  --border-color: #333333;
-  --shadow-subtle: 0 4px 20px rgba(0, 0, 0, 0.3);
-
-  --bs-body-bg: var(--bg-primary);
-  --bs-body-color: var(--text-primary);
-  --bs-primary: var(--accent-gold);
-}
 
 body {
   margin: 0;
@@ -93,57 +90,230 @@ a:hover {
   color: var(--accent-gold-hover);
 }
 
-/* Custom UI/UX Pro Max Button Base */
+/* Layout Utilities */
+#root {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+  animation: fadeInApp 0.8s ease-out;
+}
+
+@keyframes fadeInApp {
+  from { opacity: 0; transform: translateY(10px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+/* Navbar Link Underline Micro-interaction */
+.navbar-nav .nav-link {
+  position: relative;
+  transition: color 0.3s ease;
+}
+.navbar-nav .nav-link::after {
+  content: '';
+  position: absolute;
+  width: 0;
+  height: 2px;
+  bottom: 0;
+  left: 50%;
+  background-color: var(--accent-gold);
+  transition: all 0.3s ease;
+  transform: translateX(-50%);
+}
+.navbar-nav .nav-link:hover::after {
+  width: 80%;
+}
+.navbar-nav .nav-link:hover {
+  color: var(--accent-gold) !important;
+}
+
+/* Custom UI/UX Pro Max Button Animations */
 .btn-marriott {
   background-color: var(--accent-gold);
   color: #fff;
   border: none;
   padding: 0.75rem 1.5rem;
   font-family: var(--font-sans);
-  font-weight: 500;
+  font-weight: 600;
   text-transform: uppercase;
   letter-spacing: 1px;
-  border-radius: 4px;
-  transition: background-color 0.3s ease, transform 0.2s ease;
+  border-radius: 6px;
+  position: relative;
+  overflow: hidden;
+  transition: all 0.4s cubic-bezier(0.25, 0.8, 0.25, 1);
+  z-index: 1;
+}
+
+.btn-marriott::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 0%;
+  height: 100%;
+  background-color: var(--accent-gold-hover);
+  transition: all 0.4s cubic-bezier(0.25, 0.8, 0.25, 1);
+  z-index: -1;
 }
 
 .btn-marriott:hover {
-  background-color: var(--accent-gold-hover);
   color: #fff;
-  transform: translateY(-1px);
+  transform: translateY(-3px);
+  box-shadow: 0 8px 20px rgba(194, 155, 98, 0.4);
 }
 
-/* Layout Utilities */
-#root {
-  display: flex;
-  flex-direction: column;
-  min-height: 100vh;
+.btn-marriott:hover::before {
+  width: 100%;
 }
 
 /* Hover Utilities */
+.hover-gold {
+  transition: color 0.3s ease, transform 0.3s ease;
+}
 .hover-gold:hover {
   color: var(--accent-gold) !important;
+  transform: scale(1.1);
 }
 
+/* Cards Lift Effect */
 .hotel-card-hover {
-  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  transition: transform 0.4s cubic-bezier(0.25, 0.8, 0.25, 1), box-shadow 0.4s cubic-bezier(0.25, 0.8, 0.25, 1);
 }
 
 .hotel-card-hover:hover {
-  transform: translateY(-5px);
-  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15) !important;
+  transform: translateY(-8px);
+  box-shadow: 0 15px 35px rgba(0, 0, 0, 0.6) !important;
 }
 
-/* Fix Bootstrap collapse styling on dark mode if needed */
-.navbar-toggler-icon {
-  filter: invert(0.5);
+/* Image zoom effect on hover for cards */
+.hotel-card-hover .card-img-top {
+  transition: transform 0.5s ease;
 }
-@media (prefers-color-scheme: dark) {
-  .hotel-card-hover:hover {
-    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5) !important;
-  }
-  .navbar-toggler-icon {
-    filter: invert(0.8);
-  }
+.hotel-card-hover:hover .card-img-top {
+  transform: scale(1.05);
+}
+
+/* Fix Bootstrap collapse styling */
+.navbar-toggler-icon {
+  filter: invert(0.8);
+}
+
+/* Subtle image overlay on Hero */
+.hero-bg-zoom {
+  animation: zoomBg 20s infinite alternate ease-in-out;
+}
+@keyframes zoomBg {
+  from { transform: scale(1); }
+  to { transform: scale(1.1); }
+}
+
+/* Hero Search Widget Fixes */
+.hero-search-input {
+  color: #1c1c1c !important; /* Texto oscuro sobre input claro */
+  font-size: 0.95rem !important;
+  font-weight: 500 !important;
+}
+
+.hero-search-input::placeholder {
+  color: #6c757d !important;
+  font-weight: 400 !important;
+}
+
+/* Ensure React Datepicker wrapper takes full width and height */
+.react-datepicker-wrapper, .react-datepicker__input-container {
+  width: 100%;
+  display: flex;
+}
+
+.react-datepicker__input-container input, .react-datepicker-wrapper input {
+  height: 54px !important;
+  width: 100% !important;
+}
+
+.hero-search-group .react-datepicker-wrapper input {
+  border-radius: 0 8px 8px 0 !important;
+}
+
+.react-datepicker__day--outside-month {
+  color: #666666 !important;
+  opacity: 0.6;
+}
+
+
+/* React Datepicker Custom Marriott Styles */
+.react-datepicker-wrapper {
+  width: 100%;
+}
+
+.react-datepicker {
+  font-family: var(--font-sans) !important;
+  background-color: var(--bg-primary) !important;
+  border: 1px solid var(--border-color) !important;
+  border-radius: 12px !important;
+  box-shadow: var(--shadow-subtle) !important;
+  color: var(--text-primary) !important;
+  overflow: hidden;
+}
+
+.react-datepicker__header {
+  background-color: var(--bg-secondary) !important;
+  border-bottom: 1px solid var(--border-color) !important;
+  padding-top: 15px !important;
+}
+
+.react-datepicker__current-month,
+.react-datepicker-time__header,
+.react-datepicker-year-header {
+  color: var(--text-primary) !important;
+  font-weight: 600 !important;
+  font-family: var(--font-sans) !important;
+}
+
+.react-datepicker__day-name,
+.react-datepicker__day,
+.react-datepicker__time-name {
+  color: var(--text-primary) !important;
+}
+
+.react-datepicker__day:hover {
+  background-color: var(--bg-secondary) !important;
+  border-radius: 50% !important;
+}
+
+.react-datepicker__day--selected,
+.react-datepicker__day--in-selecting-range,
+.react-datepicker__day--in-range,
+.react-datepicker__month-text--selected,
+.react-datepicker__month-text--in-selecting-range,
+.react-datepicker__month-text--in-range,
+.react-datepicker__quarter-text--selected,
+.react-datepicker__quarter-text--in-selecting-range,
+.react-datepicker__quarter-text--in-range,
+.react-datepicker__year-text--selected,
+.react-datepicker__year-text--in-selecting-range,
+.react-datepicker__year-text--in-range {
+  background-color: var(--accent-gold) !important;
+  color: #fff !important;
+  border-radius: 50% !important;
+}
+
+.react-datepicker__day--keyboard-selected,
+.react-datepicker__month-text--keyboard-selected,
+.react-datepicker__quarter-text--keyboard-selected,
+.react-datepicker__year-text--keyboard-selected {
+  background-color: var(--accent-gold-hover) !important;
+  color: #fff !important;
+  border-radius: 50% !important;
+}
+
+.react-datepicker-popper[data-placement^=top] .react-datepicker__triangle::before,
+.react-datepicker-popper[data-placement^=bottom] .react-datepicker__triangle::before {
+  border-bottom-color: var(--border-color) !important;
+  border-top-color: var(--border-color) !important;
+}
+
+.react-datepicker-popper[data-placement^=top] .react-datepicker__triangle::after,
+.react-datepicker-popper[data-placement^=bottom] .react-datepicker__triangle::after {
+  border-bottom-color: var(--bg-secondary) !important;
+  border-top-color: var(--bg-secondary) !important;
 }
 

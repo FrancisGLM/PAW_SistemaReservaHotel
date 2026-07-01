@@ -6,7 +6,7 @@ const Navbar = ({ user, onLogout }) => {
       <div className="container">
         {/* Logo Izquierda */}
         <a className="navbar-brand fw-bold" href="/" style={{ color: 'var(--accent-gold)', fontFamily: 'var(--font-serif)', fontSize: '1.5rem', letterSpacing: '2px' }}>
-          RESERVA
+          BUHOTEL
         </a>
         
         <button className="navbar-toggler border-0" type="button" data-bs-toggle="collapse" data-bs-target="#navbarLinks" aria-controls="navbarLinks" aria-expanded="false" aria-label="Toggle navigation">
