@@ -1,4 +1,5 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
 
 const Navbar = ({ user, onLogout }) => {
   return (
@@ -17,28 +18,33 @@ const Navbar = ({ user, onLogout }) => {
         <div className="collapse navbar-collapse justify-content-center" id="navbarLinks">
           <ul className="navbar-nav mb-2 mb-lg-0 gap-3">
             <li className="nav-item">
-              <a className="nav-link text-uppercase fw-semibold" href="/hoteles" style={{ letterSpacing: '1px', fontSize: '0.85rem', color: 'var(--text-primary)' }}>Hoteles</a>
+              <Link className="nav-link text-uppercase fw-semibold" to="/hoteles" style={{ letterSpacing: '1px', fontSize: '0.85rem', color: 'var(--text-primary)' }}>Hoteles</Link>
             </li>
             <li className="nav-item">
-              <a className="nav-link text-uppercase fw-semibold" href="/destinos" style={{ letterSpacing: '1px', fontSize: '0.85rem', color: 'var(--text-primary)' }}>Destinos</a>
+              <Link className="nav-link text-uppercase fw-semibold" to="/destinos" style={{ letterSpacing: '1px', fontSize: '0.85rem', color: 'var(--text-primary)' }}>Destinos</Link>
             </li>
             <li className="nav-item">
-              <a className="nav-link text-uppercase fw-semibold" href="/ofertas" style={{ letterSpacing: '1px', fontSize: '0.85rem', color: 'var(--text-primary)' }}>Ofertas</a>
+              <Link className="nav-link text-uppercase fw-semibold" to="/ofertas" style={{ letterSpacing: '1px', fontSize: '0.85rem', color: 'var(--text-primary)' }}>Ofertas</Link>
             </li>
           </ul>
           
-          {/* Utilidades Responsive (se muestran en móvil dentro del collapse si la pantalla es pequeña, o a la derecha en pantallas grandes mediante flex) */}
+          {/* Utilidades Responsive */}
           <div className="d-lg-none mt-3 pb-3 border-bottom" style={{ borderColor: 'var(--border-color)' }}>
             {user ? (
-              <div className="d-flex flex-column gap-2">
-                <span className="text-muted small fw-bold">Hola, {user.nombre} ({user.rol})</span>
-                {user.rol === 'ADMIN' && <a href="/admin" className="btn btn-outline-secondary btn-sm w-100">Dashboard</a>}
+              <div className="d-flex flex-column gap-2 text-center">
+                <div className="d-flex align-items-center justify-content-center gap-2 mb-2">
+                  <div className="rounded-circle d-flex align-items-center justify-content-center fw-bold" style={{ width: '32px', height: '32px', backgroundColor: 'var(--accent-gold)', color: '#fff' }}>
+                    {user.nombre?.charAt(0)}
+                  </div>
+                  <span className="fw-bold" style={{ color: 'var(--text-primary)' }}>{user.nombre}</span>
+                </div>
+                <Link to="/dashboard" className="btn btn-outline-gold btn-sm w-100">Mi Panel</Link>
                 <button className="btn btn-marriott btn-sm w-100" onClick={onLogout}>Cerrar Sesión</button>
               </div>
             ) : (
               <div className="d-flex flex-column gap-2">
-                <a href="/login" className="btn btn-outline-secondary btn-sm w-100">Iniciar Sesión</a>
-                <a href="/register" className="btn btn-marriott btn-sm w-100">Registrarse</a>
+                <Link to="/login" className="btn btn-outline-gold btn-sm w-100">Iniciar Sesión</Link>
+                <Link to="/register" className="btn btn-marriott btn-sm w-100">Registrarse</Link>
               </div>
             )}
           </div>
@@ -47,19 +53,25 @@ const Navbar = ({ user, onLogout }) => {
         {/* Utilidades Derecha (Desktop) */}
         <div className="d-none d-lg-flex align-items-center gap-4">
           {user ? (
-            <>
-              <span className="text-muted small fw-bold" style={{ color: 'var(--text-secondary)' }}>
-                {user.nombre} <span className="opacity-75 fw-normal">({user.rol})</span>
-              </span>
-              {user.rol === 'ADMIN' && (
-                <a href="/admin" className="text-uppercase small text-decoration-none fw-bold" style={{ color: 'var(--text-primary)', letterSpacing: '1px' }}>Dashboard</a>
-              )}
-              <button className="btn btn-marriott btn-sm px-4" onClick={onLogout}>Cerrar Sesión</button>
-            </>
+            <div className="dropdown">
+              <button className="btn border-0 d-flex align-items-center gap-2 shadow-none" type="button" data-bs-toggle="dropdown" aria-expanded="false" style={{ backgroundColor: 'transparent' }}>
+                <div className="rounded-circle d-flex align-items-center justify-content-center fw-bold" style={{ width: '36px', height: '36px', backgroundColor: 'var(--accent-gold)', color: '#fff' }}>
+                  {user.nombre?.charAt(0)}
+                </div>
+                <span className="fw-bold" style={{ color: 'var(--text-primary)' }}>{user.nombre?.split(' ')[0]}</span>
+                <i className="bi bi-chevron-down" style={{ color: 'var(--text-secondary)' }}></i>
+              </button>
+              <ul className="dropdown-menu dropdown-menu-end border-0 shadow-lg" style={{ backgroundColor: 'var(--bg-secondary)', borderRadius: '12px' }}>
+                <li><Link className="dropdown-item py-2 d-flex align-items-center gap-2" to="/dashboard" style={{ color: 'var(--text-primary)' }}><i className="bi bi-grid-1x2"></i> Mi Panel</Link></li>
+                <li><Link className="dropdown-item py-2 d-flex align-items-center gap-2" to="/perfil" style={{ color: 'var(--text-primary)' }}><i className="bi bi-person"></i> Editar Perfil</Link></li>
+                <li><hr className="dropdown-divider" style={{ borderColor: 'var(--border-color)' }} /></li>
+                <li><button className="dropdown-item py-2 d-flex align-items-center gap-2 text-danger fw-bold" onClick={onLogout}><i className="bi bi-box-arrow-right"></i> Cerrar Sesión</button></li>
+              </ul>
+            </div>
           ) : (
             <>
-              <a href="/login" className="text-decoration-none small text-uppercase fw-bold" style={{ color: 'var(--text-primary)', letterSpacing: '1px' }}>Iniciar Sesión</a>
-              <a href="/register" className="btn btn-marriott btn-sm px-4">Registrarse</a>
+              <Link to="/login" className="text-decoration-none small text-uppercase fw-bold" style={{ color: 'var(--text-primary)', letterSpacing: '1px' }}>Iniciar Sesión</Link>
+              <Link to="/register" className="btn btn-marriott btn-sm px-4">Registrarse</Link>
             </>
           )}
         </div>

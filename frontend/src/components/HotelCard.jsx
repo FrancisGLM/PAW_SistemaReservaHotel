@@ -1,4 +1,5 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
 
 const HotelCard = ({ hotel, onBook }) => {
   return (
@@ -26,9 +27,9 @@ const HotelCard = ({ hotel, onBook }) => {
             <span className="fw-bold fs-4" style={{ color: 'var(--text-primary)' }}>${hotel.precioMinimo}</span>
             <span className="small fw-medium" style={{ color: 'var(--text-secondary)' }}> / noche</span>
           </div>
-          <button className="btn btn-marriott btn-sm px-4 py-2" onClick={() => onBook && onBook(hotel.id)}>
+          <Link to={`/hotel/${hotel.id}`} className="btn btn-marriott btn-sm px-4 py-2">
             Ver Detalles
-          </button>
+          </Link>
         </div>
       </div>
     </article>

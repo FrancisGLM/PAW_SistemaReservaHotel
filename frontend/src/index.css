@@ -58,6 +58,39 @@
   /* Typography */
   --font-sans: 'Inter', system-ui, -apple-system, sans-serif !important;
   --font-serif: 'Inter', Georgia, serif !important; /* Usamos Inter como serif temporal por falta de otra local */
+  --font-urbanist: "Urbanist", sans-serif;
+}
+
+.font-urbanist {
+  font-family: var(--font-urbanist) !important;
+  font-optical-sizing: auto;
+}
+
+/* Gooey Animation for buttons */
+@keyframes gooey {
+  0% { transform: translate(-50%, -50%) scale(1); border-radius: 50%; }
+  33% { transform: translate(-45%, -55%) scale(1.2); border-radius: 40%; }
+  66% { transform: translate(-55%, -45%) scale(0.8); border-radius: 60%; }
+  100% { transform: translate(-50%, -50%) scale(1); border-radius: 50%; }
+}
+.btn-marriott i.gooey-effect {
+  position: absolute;
+  top: var(--mouse-y, 50%);
+  left: var(--mouse-x, 50%);
+  transition: opacity 0.4s ease;
+  z-index: -1;
+  opacity: 0;
+}
+.btn-marriott i.gooey-effect::before {
+  content: "";
+  display: block;
+  width: 50px;
+  height: 50px;
+  background-color: var(--accent-gold-hover);
+  animation: gooey 4s linear infinite;
+}
+.btn-marriott:hover i.gooey-effect {
+  opacity: 0.5;
 }
 
 
@@ -78,6 +111,30 @@ h1, h2, h3, h4, h5, h6 {
   font-weight: 600;
   margin-top: 0;
   color: var(--text-primary);
+}
+
+/* Shine effect for text */
+.text-shine-gold {
+  color: var(--accent-gold);
+  background: linear-gradient(
+    110deg,
+    var(--accent-gold) 20%,
+    #ffeaa7 50%,
+    var(--accent-gold) 80%
+  );
+  background-size: 200% auto;
+  color: transparent;
+  -webkit-background-clip: text;
+  background-clip: text;
+  animation: shine-text 3.5s linear infinite;
+  display: inline-block;
+  font-weight: 700;
+}
+
+@keyframes shine-text {
+  to {
+    background-position: -200% center;
+  }
 }
 
 a {
@@ -129,8 +186,8 @@ a:hover {
 /* Custom UI/UX Pro Max Button Animations */
 .btn-marriott {
   background-color: var(--accent-gold);
-  color: #fff;
-  border: none;
+  color: var(--text-primary);
+  border: 1px solid transparent;
   padding: 0.75rem 1.5rem;
   font-family: var(--font-sans);
   font-weight: 600;
@@ -155,14 +212,28 @@ a:hover {
   z-index: -1;
 }
 
+.btn-marriott.no-slide-hover::before {
+  display: none !important;
+}
+
 .btn-marriott:hover {
   color: #fff;
-  transform: translateY(-3px);
+  transform: scale(1.02);
   box-shadow: 0 8px 20px rgba(194, 155, 98, 0.4);
 }
 
 .btn-marriott:hover::before {
   width: 100%;
+}
+
+.btn-marriott::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 2;
 }
 
 /* Hover Utilities */
@@ -176,11 +247,15 @@ a:hover {
 
 /* Cards Lift Effect */
 .hotel-card-hover {
+  border: 1px solid transparent;
   transition: transform 0.4s cubic-bezier(0.25, 0.8, 0.25, 1), box-shadow 0.4s cubic-bezier(0.25, 0.8, 0.25, 1);
+  position: relative;
 }
 
+/* Removed ::after to use scale instead of translateY */
+
 .hotel-card-hover:hover {
-  transform: translateY(-8px);
+  transform: scale(1.02);
   box-shadow: 0 15px 35px rgba(0, 0, 0, 0.6) !important;
 }
 
@@ -229,6 +304,46 @@ a:hover {
   width: 100% !important;
 }
 
+/* Disabled Input State (Semigris) */
+.input-disabled-state {
+  background-color: rgba(220, 220, 220, 0.5) !important;
+  color: #888 !important;
+  cursor: not-allowed !important;
+}
+.input-disabled-state::placeholder {
+  color: #888 !important;
+}
+
+/* Buscar Button Loading Animation */
+.btn-searching {
+  border-radius: 50px !important;
+  width: 54px !important;
+  height: 54px !important;
+  padding: 0 !important;
+  color: transparent !important;
+  position: relative;
+  transition: all 0.4s cubic-bezier(0.68, -0.1, 0.265, 1.15) !important;
+  margin: 0 auto;
+  pointer-events: none;
+}
+.btn-searching::after {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 24px;
+  height: 24px;
+  margin-top: -12px;
+  margin-left: -12px;
+  border: 3px solid #fff;
+  border-top-color: transparent;
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
+}
+@keyframes spin {
+  to { transform: rotate(360deg); }
+}
+
 .hero-search-group .react-datepicker-wrapper input {
   border-radius: 0 8px 8px 0 !important;
 }
@@ -239,70 +354,140 @@ a:hover {
 }
 
 
-/* React Datepicker Custom Marriott Styles */
-.react-datepicker-wrapper {
+/* React DatePicker Styles */
+.react-datepicker__triangle {
+  display: none !important;
+}
+
+/* Animations for popovers */
+@keyframes popupFadeIn {
+  0% { opacity: 0; transform: translateY(-10px) scale(0.98); }
+  100% { opacity: 1; transform: translateY(0) scale(1); }
+}
+@keyframes popupFadeOut {
+  0% { opacity: 1; transform: translateY(0) scale(1); }
+  100% { opacity: 0; transform: translateY(-10px) scale(0.98); }
+}
+
+.passenger-dropdown {
+  animation: popupFadeIn 0.3s cubic-bezier(0.25, 0.8, 0.25, 1) forwards !important;
+  transform-origin: top left;
+}
+.react-datepicker-popper {
+  z-index: 1050 !important;
+}
+.react-datepicker-popper .react-datepicker {
+  animation: popupFadeIn 0.3s cubic-bezier(0.25, 0.8, 0.25, 1) forwards !important;
+  transform-origin: top left;
+}
+.passenger-dropdown-closing {
+  animation: popupFadeOut 0.25s cubic-bezier(0.25, 0.8, 0.25, 1) forwards !important;
+  transform-origin: top left;
+}
+
+.react-datepicker {
+  display: flex !important;
+  width: max-content !important;
+}
+.react-datepicker-popper {
   width: 100%;
 }
 
 .react-datepicker {
-  font-family: var(--font-sans) !important;
-  background-color: var(--bg-primary) !important;
-  border: 1px solid var(--border-color) !important;
+  background-color: #ffffff !important;
+  color: #333333 !important;
+  border: none !important;
+  font-family: var(--font-urbanist) !important;
+  padding: 1rem !important;
   border-radius: 12px !important;
-  box-shadow: var(--shadow-subtle) !important;
-  color: var(--text-primary) !important;
-  overflow: hidden;
+  box-shadow: 0 10px 40px rgba(0,0,0,0.15) !important;
 }
 
 .react-datepicker__header {
-  background-color: var(--bg-secondary) !important;
-  border-bottom: 1px solid var(--border-color) !important;
-  padding-top: 15px !important;
+  background-color: #ffffff !important;
+  border-bottom: none !important;
+  padding-top: 0.5rem !important;
 }
 
 .react-datepicker__current-month,
 .react-datepicker-time__header,
 .react-datepicker-year-header {
-  color: var(--text-primary) !important;
-  font-weight: 600 !important;
+  color: #333333 !important;
+  font-size: 1.1rem !important;
+  margin-bottom: 0.5rem !important;
+  font-weight: 700 !important;
   font-family: var(--font-sans) !important;
 }
 
 .react-datepicker__day-name,
-.react-datepicker__day,
 .react-datepicker__time-name {
-  color: var(--text-primary) !important;
+  color: #999999 !important;
+  font-weight: 600 !important;
+  text-transform: uppercase !important;
+  font-size: 0.8rem !important;
+  width: 2.8rem !important;
+  margin: 0.2rem 0 !important;
+}
+
+.react-datepicker__day {
+  color: #333333 !important;
+  width: 2.8rem !important;
+  height: 2.8rem !important;
+  line-height: 2.8rem !important;
+  margin: 0.2rem 0 !important; /* vertical gap, no horizontal gap */
+  font-weight: 500 !important;
+  border: 2px solid transparent !important; /* reserve space for border */
 }
 
 .react-datepicker__day:hover {
-  background-color: var(--bg-secondary) !important;
+  background-color: #f5f5f5 !important;
   border-radius: 50% !important;
 }
 
-.react-datepicker__day--selected,
-.react-datepicker__day--in-selecting-range,
-.react-datepicker__day--in-range,
-.react-datepicker__month-text--selected,
-.react-datepicker__month-text--in-selecting-range,
-.react-datepicker__month-text--in-range,
-.react-datepicker__quarter-text--selected,
-.react-datepicker__quarter-text--in-selecting-range,
-.react-datepicker__quarter-text--in-range,
-.react-datepicker__year-text--selected,
-.react-datepicker__year-text--in-selecting-range,
-.react-datepicker__year-text--in-range {
+/* Base selected state */
+.react-datepicker__day--selected {
   background-color: var(--accent-gold) !important;
   color: #fff !important;
   border-radius: 50% !important;
 }
 
-.react-datepicker__day--keyboard-selected,
-.react-datepicker__month-text--keyboard-selected,
-.react-datepicker__quarter-text--keyboard-selected,
-.react-datepicker__year-text--keyboard-selected {
-  background-color: var(--accent-gold-hover) !important;
+/* In-range (the connecting light band) */
+.react-datepicker__day--in-selecting-range,
+.react-datepicker__day--in-range {
+  background-color: rgba(194, 155, 98, 0.15) !important;
+  color: #333 !important;
+  border-radius: 0 !important;
+}
+
+/* End Date (Hollow Circle) */
+.react-datepicker__day--range-end,
+.react-datepicker__day--selecting-range-end {
+  background-color: #ffffff !important; /* White inner background to cover the band */
+  border: 2px solid var(--accent-gold) !important;
+  color: #333 !important;
+  border-radius: 50% !important;
+}
+
+/* Start Date (Solid Circle) - placed after to take precedence if same day */
+.react-datepicker__day--range-start,
+.react-datepicker__day--selecting-range-start {
+  background-color: var(--accent-gold) !important;
   color: #fff !important;
   border-radius: 50% !important;
+  border: 2px solid var(--accent-gold) !important;
+}
+
+.react-datepicker__day--keyboard-selected {
+  background-color: transparent !important;
+  border-radius: 50% !important;
+}
+
+/* Nav arrows */
+.react-datepicker__navigation-icon::before {
+  border-color: #999 !important;
+}
+.react-datepicker__navigation:hover .react-datepicker__navigation-icon::before {
+  border-color: var(--accent-gold) !important;
 }
 
 .react-datepicker-popper[data-placement^=top] .react-datepicker__triangle::before,
@@ -317,3 +502,327 @@ a:hover {
   border-top-color: var(--bg-secondary) !important;
 }
 
+/* Infinite Marquee */
+.marquee-container {
+  overflow: hidden;
+  white-space: nowrap;
+  position: relative;
+  width: 100%;
+}
+.marquee-content {
+  display: flex;
+  width: max-content;
+  animation: scrollMarquee 80s linear infinite;
+}
+.marquee-content-right {
+  display: flex;
+  width: max-content;
+  animation: scrollMarqueeRight 80s linear infinite;
+}
+.marquee-container:hover .marquee-content,
+.marquee-container:hover .marquee-content-right {
+  animation-play-state: paused;
+}
+@keyframes scrollMarquee {
+  0% { transform: translateX(0); }
+  100% { transform: translateX(-50%); }
+}
+@keyframes scrollMarqueeRight {
+  0% { transform: translateX(-50%); }
+  100% { transform: translateX(0); }
+}
+.destino-item {
+  display: inline-flex;
+  align-items: center;
+  margin: 0 40px;
+  cursor: pointer;
+}
+.destino-item img {
+  width: 90px;
+  height: 90px;
+  border-radius: 50%;
+  object-fit: cover;
+  margin-right: 25px;
+  transition: transform 0.4s ease, box-shadow 0.4s ease;
+}
+.destino-hover {
+  font-family: var(--font-urbanist);
+  font-size: clamp(3rem, 6vw, 5rem);
+  font-weight: 700;
+  color: var(--text-primary);
+  text-decoration: none;
+  transition: all 0.3s ease;
+  line-height: 1;
+  text-transform: uppercase;
+  letter-spacing: -2px;
+}
+.destino-item:hover .destino-hover {
+  color: transparent;
+  -webkit-text-fill-color: transparent;
+  -webkit-text-stroke-width: 2px;
+  -webkit-text-stroke-color: var(--accent-gold);
+}
+.destino-item:hover img {
+  transform: scale(1.1) rotate(5deg);
+  box-shadow: 0 10px 20px rgba(0,0,0,0.5);
+}
+
+/* Animated Hero Title */
+.frase-text {
+  --alto-linea: 1.2em;
+  --tiempo-total: 21s;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 12px;
+}
+.palabras-contenedor {
+  height: var(--alto-linea);
+  overflow: hidden;
+  position: relative;
+  display: inline-block;
+  vertical-align: middle;
+  -webkit-mask-image: linear-gradient(
+    to bottom,
+    transparent 0%,
+    rgba(0, 0, 0, 0.4) 5%,
+    black 15%,
+    black 85%,
+    rgba(0, 0, 0, 0.4) 95%,
+    transparent 100%
+  );
+  mask-image: linear-gradient(
+    to bottom,
+    transparent 0%,
+    rgba(0, 0, 0, 0.4) 5%,
+    black 15%,
+    black 85%,
+    rgba(0, 0, 0, 0.4) 95%,
+    transparent 100%
+  );
+}
+.palabras-mover {
+  animation: deslizar-palabras var(--tiempo-total) cubic-bezier(0.76, 0, 0.24, 1) infinite;
+}
+.palabras-mover span {
+  display: block;
+  height: var(--alto-linea);
+  line-height: var(--alto-linea);
+  color: var(--accent-gold);
+  white-space: nowrap;
+}
+@keyframes deslizar-palabras {
+  0%, 11% { transform: translateY(0); }
+  14.28%, 25.28% { transform: translateY(calc(-1 * var(--alto-linea))); }
+  28.57%, 39.57% { transform: translateY(calc(-2 * var(--alto-linea))); }
+  42.85%, 53.85% { transform: translateY(calc(-3 * var(--alto-linea))); }
+  57.14%, 68.14% { transform: translateY(calc(-4 * var(--alto-linea))); }
+  71.42%, 82.42% { transform: translateY(calc(-5 * var(--alto-linea))); }
+  85.71%, 96.71% { transform: translateY(calc(-6 * var(--alto-linea))); }
+  100% { transform: translateY(calc(-7 * var(--alto-linea))); }
+}
+
+/* ==========================================================================
+   Nuevas Secciones: Servicios, Reseñas, Condiciones, Hoteles Similares
+   ========================================================================== */
+
+/* Servicios (Amenities) */
+.amenity-item {
+  color: var(--text-primary);
+  background: var(--bg-secondary);
+  padding: 0.5rem 1rem;
+  border-radius: 50px;
+  border: 1px solid var(--border-color);
+  transition: all 0.3s ease;
+  cursor: default;
+}
+.amenity-item:hover {
+  border-color: var(--accent-gold);
+  background: rgba(194, 155, 98, 0.05);
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-subtle);
+}
+.amenity-icon {
+  color: var(--accent-gold);
+}
+.amenity-detailed-item {
+  transition: all 0.3s ease;
+  padding: 1rem;
+  border-radius: 12px;
+}
+.amenity-detailed-item:hover {
+  background-color: var(--bg-secondary);
+}
+.amenity-icon-muted {
+  color: var(--text-secondary);
+}
+.amenity-title {
+  color: var(--text-primary);
+}
+.amenity-check-icon {
+  color: var(--accent-gold);
+  font-size: 1.1rem;
+}
+.amenity-list-text {
+  color: var(--text-secondary);
+}
+
+/* Reseñas (Reviews) */
+.review-card {
+  background-color: var(--bg-secondary);
+  border-radius: 12px;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  border: 1px solid transparent;
+}
+.review-card:hover {
+  transform: translateY(-5px);
+  box-shadow: var(--shadow-subtle);
+  border-color: rgba(194, 155, 98, 0.3);
+}
+.review-avatar {
+  width: 45px;
+  height: 45px;
+  background-color: var(--accent-gold);
+  color: #fff;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: bold;
+  font-size: 1.2rem;
+  box-shadow: 0 4px 10px rgba(194, 155, 98, 0.4);
+}
+.review-name {
+  color: var(--text-primary);
+}
+.review-country {
+  color: var(--text-secondary);
+}
+.review-positive {
+  color: var(--text-primary);
+  line-height: 1.5;
+}
+.review-positive i {
+  color: #4cd137;
+}
+.review-negative {
+  color: var(--text-secondary);
+  line-height: 1.5;
+}
+.review-negative i {
+  color: #e84118;
+}
+.review-more-link {
+  color: var(--accent-gold);
+  text-decoration: none;
+  font-weight: 500;
+  display: inline-flex;
+  align-items: center;
+  transition: color 0.3s ease;
+}
+.review-more-link:hover {
+  color: var(--accent-gold-hover);
+}
+.review-more-link i {
+  transition: transform 0.3s ease;
+}
+.review-more-link:hover i {
+  transform: translateX(4px);
+}
+
+.btn-outline-gold {
+  color: var(--accent-gold);
+  border: 1px solid var(--accent-gold);
+  background-color: transparent;
+  border-radius: 8px;
+  transition: all 0.3s ease;
+}
+.btn-outline-gold:hover {
+  background-color: var(--accent-gold);
+  color: #fff;
+}
+
+/* Condiciones del Alojamiento */
+.condition-alert-warning {
+  background-color: rgba(194, 155, 98, 0.1);
+  color: var(--text-primary);
+  border-radius: 12px;
+  border: 1px solid rgba(194, 155, 98, 0.3) !important;
+}
+.condition-alert-info {
+  background-color: var(--bg-secondary);
+  color: var(--text-primary);
+  border-radius: 12px;
+  border: 1px solid var(--border-color) !important;
+}
+.condition-icon {
+  color: var(--accent-gold);
+}
+.condition-alert-info .condition-icon {
+  color: var(--text-secondary);
+}
+
+/* Hoteles Similares */
+.similar-hotel-card {
+  background-color: var(--bg-secondary);
+  border-radius: 16px;
+  overflow: hidden;
+}
+.similar-hotel-img-wrapper {
+  position: relative;
+  overflow: hidden;
+  height: 220px;
+}
+.similar-hotel-img-wrapper img {
+  width: 100%;
+  height: 100%;
+  transition: transform 0.6s ease;
+}
+.similar-hotel-card:hover .similar-hotel-img-wrapper img {
+  transform: scale(1.08);
+}
+.similar-hotel-badge {
+  position: absolute;
+  top: 15px;
+  left: 15px;
+  background-color: rgba(0, 0, 0, 0.6);
+  color: #fff;
+  padding: 0.25rem 0.75rem;
+  border-radius: 4px;
+  font-size: 0.75rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  backdrop-filter: blur(4px);
+}
+.similar-hotel-title {
+  color: var(--text-primary);
+  font-family: var(--font-serif);
+}
+.similar-hotel-location {
+  color: var(--text-secondary);
+}
+.similar-hotel-stars {
+  letter-spacing: 2px;
+}
+.border-top-custom {
+  border-top: 1px solid var(--border-color);
+}
+.similar-hotel-subtext {
+  color: var(--text-secondary);
+}
+.similar-hotel-price {
+  color: var(--text-primary);
+}
+.similar-hotel-action {
+  background-color: var(--accent-gold);
+  color: #fff;
+  padding: 0.5rem 1rem;
+  border-radius: 6px;
+  font-weight: 600;
+  transition: background-color 0.3s ease;
+}
+.similar-hotel-card:hover .similar-hotel-action {
+  background-color: var(--accent-gold-hover);
+}
