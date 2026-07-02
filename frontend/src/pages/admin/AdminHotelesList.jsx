@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
+import api from '../../api/axiosConfig';
 
 const AdminHotelesList = () => {
   const [hoteles, setHoteles] = useState([]);
@@ -9,9 +10,8 @@ const AdminHotelesList = () => {
   useEffect(() => {
     const fetchHoteles = async () => {
       try {
-        const res = await fetch('/mocks/hoteles.json');
-        const data = await res.json();
-        setHoteles(data);
+        const res = await api.get('/hoteles');
+        setHoteles(res.data);
       } catch (error) {
         console.error("Error cargando hoteles mock:", error);
       } finally {
@@ -26,9 +26,15 @@ const AdminHotelesList = () => {
     navigate(`/admin/hoteles/editar/${id}`);
   };
 
-  const handleDelete = (id) => {
+  const handleDelete = async (id) => {
     if (window.confirm('¿Estás seguro de que deseas eliminar este hotel?')) {
-      setHoteles(hoteles.filter(h => h.id !== id));
+      try {
+        await api.delete(`/hoteles/${id}`);
+        setHoteles(hoteles.filter(h => h.id !== id));
+      } catch (error) {
+        console.error("Error al eliminar hotel:", error);
+        alert("No se pudo eliminar el hotel.");
+      }
     }
   };
 

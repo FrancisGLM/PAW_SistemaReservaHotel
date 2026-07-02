@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import api from '../api/axiosConfig';
 import Hero from '../components/Hero';
 import HotelCard from '../components/HotelCard';
 
@@ -32,10 +33,9 @@ const Home = () => {
   const [hoteles, setHoteles] = useState([]);
 
   useEffect(() => {
-    fetch('/mocks/hoteles.json')
-      .then(res => res.json())
-      .then(data => setHoteles(data))
-      .catch(err => console.error("Error loading mocks", err));
+    api.get('/hoteles')
+      .then(res => setHoteles(res.data))
+      .catch(err => console.error("Error loading hoteles", err));
   }, []);
 
   return (

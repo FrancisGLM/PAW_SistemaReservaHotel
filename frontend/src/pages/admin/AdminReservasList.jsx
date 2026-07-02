@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
-
 import { useNavigate } from 'react-router-dom';
+import api from '../../api/axiosConfig';
 
 const AdminReservasList = () => {
   const navigate = useNavigate();
@@ -16,8 +16,8 @@ const AdminReservasList = () => {
   useEffect(() => {
     const fetchReservas = async () => {
       try {
-        const res = await fetch('/mocks/reservas.json');
-        const data = await res.json();
+        const res = await api.get('/reservas');
+        const data = res.data;
         setReservas(data);
         setFilteredReservas(data);
       } catch (error) {

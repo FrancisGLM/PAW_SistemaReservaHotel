@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useLocation } from 'react-router-dom';
+import api from '../api/axiosConfig';
 import SearchSidebar from '../components/SearchSidebar';
 import HorizontalHotelCard from '../components/HorizontalHotelCard';
 
@@ -16,8 +17,8 @@ const ResultadosBusqueda = () => {
   useEffect(() => {
     const fetchHoteles = async () => {
       try {
-        const res = await fetch('/mocks/hoteles.json');
-        const data = await res.json();
+        const res = await api.get('/hoteles');
+        const data = res.data;
         setHoteles(data);
         
         // Filtro inicial por destino

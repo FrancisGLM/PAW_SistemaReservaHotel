@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useParams, Link } from 'react-router-dom';
+import api from '../api/axiosConfig';
 import DatePicker, { registerLocale } from 'react-datepicker';
 import "react-datepicker/dist/react-datepicker.css";
 import { es } from 'date-fns/locale';
@@ -17,9 +18,9 @@ const HotelDetail = () => {
   const [startDate, endDate] = dateRange;
 
   useEffect(() => {
-    fetch('/mocks/hoteles.json')
-      .then(res => res.json())
-      .then(data => {
+    api.get('/hoteles')
+      .then(res => {
+        const data = res.data;
         const found = data.find(h => h.id === parseInt(id));
         setHotel(found);
         setSimilares(data.filter(h => h.id !== parseInt(id)).slice(0, 3));

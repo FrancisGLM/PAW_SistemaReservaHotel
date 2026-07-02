@@ -1,6 +1,7 @@
 import React, { createContext, useState, useEffect, useContext } from 'react';
 import { useNavigate } from 'react-router-dom';
 import api from '../api/axiosConfig';
+import { jwtDecode } from 'jwt-decode';
 
 const AuthContext = createContext();
 
@@ -36,57 +37,30 @@ export const AuthProvider = ({ children }) => {
 
   const login = async (email, password) => {
     try {
-      // ESTE ES EL REQUISITO TÉCNICO: POST /auth/login
-      // Fallará porque no hay backend real, así que lo atraparemos en el catch
-      const response = await api.post('/auth/login', { email, password });
+      // El backend espera 'username' (que en nuestro caso es el email) y 'password'
+      const response = await api.post('/auth/login', { username: email, password });
       
-      // Si existiera backend, haríamos esto:
-      // const data = response.data;
-      // setUser(data.user);
-      // localStorage.setItem('buhotel_user', JSON.stringify(data.user));
-      // localStorage.setItem('buhotel_token', data.token);
-      // return { success: true };
+      const token = response.data.jwt;
+      if (!token) throw new Error("No se recibió token");
+
+      // Decodificamos el JWT para extraer el rol y el subject (email)
+      const decoded = jwtDecode(token);
       
+      const userData = {
+        email: decoded.sub,
+        rol: decoded.roles, // Spring Security envía el claim como 'roles'
+        nombre: decoded.sub.split('@')[0] // Generamos un nombre temporal basado en el correo
+      };
+
+      setUser(userData);
+      localStorage.setItem('buhotel_user', JSON.stringify(userData));
+      localStorage.setItem('buhotel_token', token);
+      
+      return { success: true };
     } catch (error) {
-      console.warn("La llamada real POST /auth/login falló (esperado sin backend). Fallback a simulación local.");
-      
-      try {
-        // --- INICIO MOCK FALLBACK ---
-        // Simulación temporal con 2 usuarios hardcodeados para poder probar
-        const mockUsers = [
-          {
-            id: 1,
-            email: 'admin@buhotel.com',
-            password: 'admin',
-            nombre: 'Ana Administradora',
-            rol: 'ADMIN'
-          },
-          {
-            id: 2,
-            email: 'user@buhotel.com',
-            password: 'user',
-            nombre: 'Carlos Viajero',
-            rol: 'USER'
-          }
-        ];
-
-        const foundUser = mockUsers.find(u => u.email === email && u.password === password);
-
-        if (foundUser) {
-          // Quitamos el password del objeto antes de guardarlo
-          const { password: _, ...userWithoutPass } = foundUser;
-          
-          setUser(userWithoutPass);
-          localStorage.setItem('buhotel_user', JSON.stringify(userWithoutPass));
-          localStorage.setItem('buhotel_token', 'mock-jwt-token-123456');
-          return { success: true };
-        } else {
-          return { success: false, error: 'Correo o contraseña incorrectos.' };
-        }
-        // --- FIN MOCK FALLBACK ---
-      } catch(e) {
-        return { success: false, error: 'Error de conexión simulada.' };
-      }
+      console.error("Error en login:", error);
+      const msg = error.response?.data?.message || 'Correo o contraseña incorrectos.';
+      return { success: false, error: msg };
     }
   };
 
@@ -94,21 +68,28 @@ export const AuthProvider = ({ children }) => {
     setUser(null);
     localStorage.removeItem('buhotel_user');
     localStorage.removeItem('buhotel_token');
-    navigate('/login'); // Requisito: redirigir al login
+    navigate('/login');
   };
 
   const register = async (userData) => {
-    // Simulating registration
-    const newUser = {
-      id: Math.floor(Math.random() * 1000),
-      nombre: userData.nombre,
-      email: userData.email,
-      rol: 'USER'
-    };
-    setUser(newUser);
-    localStorage.setItem('buhotel_user', JSON.stringify(newUser));
-    localStorage.setItem('buhotel_token', 'mock-jwt-token-register');
-    return { success: true };
+    try {
+      // El backend espera: nombre, username (email), password, rol
+      const payload = {
+        nombre: userData.nombre,
+        username: userData.email,
+        password: userData.password,
+        rol: "USER" // Por defecto, todos los registros públicos son USER
+      };
+      
+      await api.post('/auth/register', payload);
+      
+      // Tras registrar exitosamente, hacemos login automático
+      return await login(userData.email, userData.password);
+    } catch (error) {
+      console.error("Error en registro:", error);
+      const msg = error.response?.data?.message || 'Error al registrar usuario.';
+      return { success: false, error: msg };
+    }
   };
 
   const value = {

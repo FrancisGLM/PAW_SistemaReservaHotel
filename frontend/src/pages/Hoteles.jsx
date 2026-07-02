@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
+import api from '../api/axiosConfig';
 
 const Hoteles = () => {
   const [hoteles, setHoteles] = useState([]);
@@ -8,9 +9,8 @@ const Hoteles = () => {
   useEffect(() => {
     const fetchHoteles = async () => {
       try {
-        const res = await fetch('/mocks/hoteles.json');
-        const data = await res.json();
-        setHoteles(data);
+        const res = await api.get('/hoteles');
+        setHoteles(res.data);
       } catch (error) {
         console.error("Error cargando hoteles:", error);
       } finally {
