@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import DatePicker from 'react-datepicker';
 import "react-datepicker/dist/react-datepicker.css";
 import { registerLocale } from 'react-datepicker';
@@ -44,7 +44,7 @@ const CustomSidebarDateInput = React.forwardRef(({ value, onClick, disabled }, r
   );
 });
 
-const SearchSidebar = ({ onFilterChange }) => {
+const SearchSidebar = ({ onFilterChange, hoteles = [] }) => {
   const [filters, setFilters] = useState({
     priceMin: 0,
     priceMax: 1000000,
@@ -52,9 +52,32 @@ const SearchSidebar = ({ onFilterChange }) => {
     amenities: []
   });
 
-  const [startDate, setStartDate] = useState(null);
-  const [endDate, setEndDate] = useState(null);
-  const [datesDefined, setDatesDefined] = useState(true);
+  const [startDate, setStartDate] = useState(() => {
+    const saved = localStorage.getItem('buhotel_startDate');
+    return saved ? new Date(saved) : null;
+  });
+  const [endDate, setEndDate] = useState(() => {
+    const saved = localStorage.getItem('buhotel_endDate');
+    return saved ? new Date(saved) : null;
+  });
+  const [datesDefined, setDatesDefined] = useState(() => {
+    const saved = localStorage.getItem('buhotel_datesDefined');
+    return saved ? JSON.parse(saved) : true;
+  });
+
+  useEffect(() => {
+    if (startDate) localStorage.setItem('buhotel_startDate', startDate.toISOString());
+    else localStorage.removeItem('buhotel_startDate');
+  }, [startDate]);
+
+  useEffect(() => {
+    if (endDate) localStorage.setItem('buhotel_endDate', endDate.toISOString());
+    else localStorage.removeItem('buhotel_endDate');
+  }, [endDate]);
+
+  useEffect(() => {
+    localStorage.setItem('buhotel_datesDefined', JSON.stringify(datesDefined));
+  }, [datesDefined]);
 
   const handleStarChange = (star) => {
     const newStars = filters.stars.includes(star)
@@ -178,8 +201,8 @@ const SearchSidebar = ({ onFilterChange }) => {
             type="range" 
             className="form-range" 
             min="0" 
-            max="1000000" 
-            step="10000"
+            max="100000" 
+            step="5000"
             value={filters.priceMax}
             onChange={(e) => handlePriceChange(e, 'priceMax')}
           />
@@ -190,26 +213,29 @@ const SearchSidebar = ({ onFilterChange }) => {
         {/* Categoría (Estrellas) */}
         <div className="mb-4">
           <h6 className="fw-bold mb-3" style={{ color: 'var(--text-primary)' }}>Categoría</h6>
-          {[5, 4, 3, 2, 1].map(star => (
-            <div key={star} className="form-check mb-2">
-              <input 
-                className="form-check-input shadow-none cursor-pointer" 
-                type="checkbox" 
-                id={`star-${star}`}
-                checked={filters.stars.includes(star)}
-                onChange={() => handleStarChange(star)}
-                style={{ backgroundColor: filters.stars.includes(star) ? 'var(--accent-gold)' : 'transparent', borderColor: 'var(--border-color)' }}
-              />
-              <label className="form-check-label d-flex align-items-center cursor-pointer w-100" htmlFor={`star-${star}`}>
-                <div className="text-warning me-2" style={{ letterSpacing: '2px' }}>
-                  {[...Array(star)].map((_, i) => <i key={i} className="bi bi-star-fill"></i>)}
-                </div>
-                <span className="ms-auto small" style={{ color: 'var(--text-secondary)' }}>
-                  {Math.floor(Math.random() * 50) + 1}
-                </span>
-              </label>
-            </div>
-          ))}
+          {[5, 4, 3, 2, 1].map(star => {
+            const starCount = hoteles.filter(h => h.estrellas === star).length;
+            return (
+              <div key={star} className="form-check mb-2">
+                <input 
+                  className="form-check-input shadow-none cursor-pointer" 
+                  type="checkbox" 
+                  id={`star-${star}`}
+                  checked={filters.stars.includes(star)}
+                  onChange={() => handleStarChange(star)}
+                  style={{ backgroundColor: filters.stars.includes(star) ? 'var(--accent-gold)' : 'transparent', borderColor: 'var(--border-color)' }}
+                />
+                <label className="form-check-label d-flex align-items-center cursor-pointer w-100" htmlFor={`star-${star}`}>
+                  <div className="text-warning me-2" style={{ letterSpacing: '2px' }}>
+                    {[...Array(star)].map((_, i) => <i key={i} className="bi bi-star-fill"></i>)}
+                  </div>
+                  <span className="ms-auto small" style={{ color: 'var(--text-secondary)' }}>
+                    {starCount}
+                  </span>
+                </label>
+              </div>
+            );
+          })}
         </div>
 
         <hr style={{ borderColor: 'var(--border-color)' }} />
@@ -218,19 +244,19 @@ const SearchSidebar = ({ onFilterChange }) => {
         <div className="mb-4">
           <h6 className="fw-bold mb-3" style={{ color: 'var(--text-primary)' }}>Condiciones de reserva</h6>
           <div className="form-check form-switch mb-2">
-            <input className="form-check-input shadow-none cursor-pointer" type="checkbox" role="switch" id="cancelation" onChange={() => handleAmenityChange('Cancelación')} style={{ backgroundColor: filters.amenities.includes('Cancelación') ? 'var(--accent-gold)' : 'var(--bg-primary)', borderColor: 'var(--border-color)' }} />
+            <input className="form-check-input shadow-none cursor-pointer" type="checkbox" role="switch" id="cancelation" onChange={() => handleAmenityChange('Cancelación gratis')} style={{ backgroundColor: filters.amenities.includes('Cancelación gratis') ? 'var(--accent-gold)' : 'var(--bg-primary)', borderColor: 'var(--border-color)' }} />
             <label className="form-check-label small w-100 d-flex justify-content-between cursor-pointer" htmlFor="cancelation" style={{ color: 'var(--text-secondary)' }}>
               <span>Cancelación gratis</span>
             </label>
           </div>
           <div className="form-check form-switch mb-2">
-            <input className="form-check-input shadow-none cursor-pointer" type="checkbox" role="switch" id="noprepay" onChange={() => handleAmenityChange('Sin Pago Anticipado')} style={{ backgroundColor: filters.amenities.includes('Sin Pago Anticipado') ? 'var(--accent-gold)' : 'var(--bg-primary)', borderColor: 'var(--border-color)' }} />
+            <input className="form-check-input shadow-none cursor-pointer" type="checkbox" role="switch" id="noprepay" onChange={() => handleAmenityChange('Reservar sin pagar nada')} style={{ backgroundColor: filters.amenities.includes('Reservar sin pagar nada') ? 'var(--accent-gold)' : 'var(--bg-primary)', borderColor: 'var(--border-color)' }} />
             <label className="form-check-label small w-100 d-flex justify-content-between cursor-pointer" htmlFor="noprepay" style={{ color: 'var(--text-secondary)' }}>
               <span>Reservar sin pagar nada</span>
             </label>
           </div>
           <div className="form-check form-switch mb-2">
-            <input className="form-check-input shadow-none cursor-pointer" type="checkbox" role="switch" id="desayuno" onChange={() => handleAmenityChange('Desayuno')} style={{ backgroundColor: filters.amenities.includes('Desayuno') ? 'var(--accent-gold)' : 'var(--bg-primary)', borderColor: 'var(--border-color)' }} />
+            <input className="form-check-input shadow-none cursor-pointer" type="checkbox" role="switch" id="desayuno" onChange={() => handleAmenityChange('Desayuno incluido')} style={{ backgroundColor: filters.amenities.includes('Desayuno incluido') ? 'var(--accent-gold)' : 'var(--bg-primary)', borderColor: 'var(--border-color)' }} />
             <label className="form-check-label small w-100 d-flex justify-content-between cursor-pointer" htmlFor="desayuno" style={{ color: 'var(--text-secondary)' }}>
               <span>Desayuno incluido</span>
             </label>

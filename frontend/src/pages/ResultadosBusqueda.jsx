@@ -8,6 +8,8 @@ const ResultadosBusqueda = () => {
   const [hoteles, setHoteles] = useState([]);
   const [filteredHoteles, setFilteredHoteles] = useState([]);
   const [loading, setLoading] = useState(true);
+  const [currentFilters, setCurrentFilters] = useState(null);
+  const [sortOption, setSortOption] = useState('recomendados');
   const location = useLocation();
 
   // Obtener destino de la URL si existe
@@ -24,8 +26,8 @@ const ResultadosBusqueda = () => {
         // Filtro inicial por destino
         if (destinoQuery) {
           const inicial = data.filter(h => 
-            h.ubicacion.toLowerCase().includes(destinoQuery.toLowerCase()) || 
-            h.nombre.toLowerCase().includes(destinoQuery.toLowerCase())
+            (h.direccion && h.direccion.toLowerCase().includes(destinoQuery.toLowerCase())) || 
+            (h.nombre && h.nombre.toLowerCase().includes(destinoQuery.toLowerCase()))
           );
           setFilteredHoteles(inicial);
         } else {
@@ -41,29 +43,46 @@ const ResultadosBusqueda = () => {
   }, [destinoQuery]);
 
   const handleFilterChange = (filters) => {
+    setCurrentFilters(filters);
+  };
+
+  useEffect(() => {
     let result = [...hoteles];
 
-    // Filtro por destino (mantiene la búsqueda original si no se limpia)
     if (destinoQuery) {
       result = result.filter(h => 
-        h.ubicacion.toLowerCase().includes(destinoQuery.toLowerCase()) || 
-        h.nombre.toLowerCase().includes(destinoQuery.toLowerCase())
+        (h.direccion && h.direccion.toLowerCase().includes(destinoQuery.toLowerCase())) || 
+        (h.nombre && h.nombre.toLowerCase().includes(destinoQuery.toLowerCase()))
       );
     }
 
-    // Filtro Precio
-    result = result.filter(h => h.precioMinimo >= filters.priceMin && h.precioMinimo <= filters.priceMax);
+    if (currentFilters) {
+      result = result.filter(h => h.precioMinimo >= currentFilters.priceMin && h.precioMinimo <= currentFilters.priceMax);
 
-    // Filtro Estrellas
-    if (filters.stars.length > 0) {
-      result = result.filter(h => filters.stars.includes(h.estrellas));
+      if (currentFilters.stars.length > 0) {
+        result = result.filter(h => currentFilters.stars.includes(h.estrellas));
+      }
+
+      if (currentFilters.amenities.length > 0) {
+        result = result.filter(h => 
+          currentFilters.amenities.every(am => 
+            (h.amenidades && h.amenidades.includes(am)) || 
+            (h.condiciones && h.condiciones.includes(am))
+          )
+        );
+      }
     }
 
-    // (Filtro Amenidades se podría implementar comprobando si el hotel tiene todas las seleccionadas)
-    // if (filters.amenities.length > 0) { ... }
+    if (sortOption === 'precio_asc') {
+      result.sort((a, b) => a.precioMinimo - b.precioMinimo);
+    } else if (sortOption === 'precio_desc') {
+      result.sort((a, b) => b.precioMinimo - a.precioMinimo);
+    } else if (sortOption === 'estrellas_desc') {
+      result.sort((a, b) => b.estrellas - a.estrellas);
+    }
 
     setFilteredHoteles(result);
-  };
+  }, [hoteles, destinoQuery, currentFilters, sortOption]);
 
   return (
     <div className="container-fluid px-lg-5 py-4 mt-5 min-vh-100 page-enter" style={{ backgroundColor: 'var(--bg-primary)' }}>
@@ -78,7 +97,12 @@ const ResultadosBusqueda = () => {
           </p>
         </div>
         <div>
-          <select className="form-select shadow-none text-white" style={{ backgroundColor: 'var(--bg-secondary)', borderColor: 'var(--border-color)', borderRadius: '8px' }}>
+          <select 
+            className="form-select shadow-none text-white" 
+            style={{ backgroundColor: 'var(--bg-secondary)', borderColor: 'var(--border-color)', borderRadius: '8px' }}
+            value={sortOption}
+            onChange={(e) => setSortOption(e.target.value)}
+          >
             <option value="recomendados">Más relevantes</option>
             <option value="precio_asc">Precio: menor a mayor</option>
             <option value="precio_desc">Precio: mayor a menor</option>
@@ -88,9 +112,11 @@ const ResultadosBusqueda = () => {
       </div>
 
       <div className="row">
-        {/* Sidebar */}
         <div className="col-lg-3 mb-4 mb-lg-0">
-          <SearchSidebar onFilterChange={handleFilterChange} />
+          <SearchSidebar 
+            onFilterChange={handleFilterChange} 
+            hoteles={hoteles.filter(h => !destinoQuery || (h.direccion && h.direccion.toLowerCase().includes(destinoQuery.toLowerCase())) || (h.nombre && h.nombre.toLowerCase().includes(destinoQuery.toLowerCase())))} 
+          />
         </div>
 
         {/* Resultados */}

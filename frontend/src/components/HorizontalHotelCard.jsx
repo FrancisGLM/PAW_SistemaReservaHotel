@@ -61,10 +61,11 @@ const HorizontalHotelCard = ({ hotel }) => {
 
             <div className="row align-items-end mt-auto">
               <div className="col-md-7">
-                {hotel.amenidades && (
+                {hotel.condiciones && hotel.condiciones.length > 0 && (
                   <div className="d-flex flex-column gap-1 mb-3 mb-md-0">
-                    <span className="small text-success fw-bold"><i className="bi bi-check-lg me-1"></i> Cancelación gratis</span>
-                    <span className="small text-success fw-bold"><i className="bi bi-check-lg me-1"></i> No requiere pago por adelantado</span>
+                    {hotel.condiciones.map((cond, i) => (
+                      <span key={i} className="small text-success fw-bold"><i className="bi bi-check-lg me-1"></i> {cond}</span>
+                    ))}
                   </div>
                 )}
               </div>
