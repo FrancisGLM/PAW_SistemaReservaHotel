@@ -11,6 +11,4 @@ dist/*
 dist
 .idea
 
-frontend/public/*
-
 task.md

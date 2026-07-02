@@ -1,0 +1,68 @@
+[
+  {
+    "id": "RES-001",
+    "huesped": "Carlos Muñoz",
+    "email": "carlos.m@example.com",
+    "hotel": "Almacruz Hotel y Centro de Convenciones",
+    "fechaEntrada": "2024-08-15",
+    "fechaSalida": "2024-08-20",
+    "total": 300240,
+    "estado": "Confirmada",
+    "fechaReserva": "2024-05-10T10:30:00Z"
+  },
+  {
+    "id": "RES-002",
+    "huesped": "María Fernanda López",
+    "email": "mfer.lopez@example.com",
+    "hotel": "Hotel Fundador",
+    "fechaEntrada": "2024-09-01",
+    "fechaSalida": "2024-09-05",
+    "total": 160000,
+    "estado": "Pendiente",
+    "fechaReserva": "2024-06-01T14:15:00Z"
+  },
+  {
+    "id": "RES-003",
+    "huesped": "Juan Pérez",
+    "email": "juanperez@example.com",
+    "hotel": "Hotel Panamericano",
+    "fechaEntrada": "2024-07-20",
+    "fechaSalida": "2024-07-22",
+    "total": 91802,
+    "estado": "Cancelada",
+    "fechaReserva": "2024-04-20T09:00:00Z"
+  },
+  {
+    "id": "RES-004",
+    "huesped": "Lucía Gómez",
+    "email": "lucia.gomez@example.com",
+    "hotel": "MR. Hotel",
+    "fechaEntrada": "2024-10-10",
+    "fechaSalida": "2024-10-17",
+    "total": 605584,
+    "estado": "Confirmada",
+    "fechaReserva": "2024-06-15T16:45:00Z"
+  },
+  {
+    "id": "RES-005",
+    "huesped": "Andrés Silva",
+    "email": "asilva@example.com",
+    "hotel": "NH Ciudad de Santiago",
+    "fechaEntrada": "2024-11-05",
+    "fechaSalida": "2024-11-08",
+    "total": 240000,
+    "estado": "Pendiente",
+    "fechaReserva": "2024-06-25T11:20:00Z"
+  },
+  {
+    "id": "RES-006",
+    "huesped": "Camila Rojas",
+    "email": "crojas@example.com",
+    "hotel": "Hotel Cumbres Lastarria",
+    "fechaEntrada": "2024-12-20",
+    "fechaSalida": "2024-12-26",
+    "total": 950000,
+    "estado": "Confirmada",
+    "fechaReserva": "2024-07-01T18:00:00Z"
+  }
+]

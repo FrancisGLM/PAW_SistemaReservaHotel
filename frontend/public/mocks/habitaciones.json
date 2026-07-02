@@ -1,0 +1,29 @@
+[
+  {
+    "id": 101,
+    "hotelId": 1,
+    "tipo": "Sencilla",
+    "capacidad": 1,
+    "precio": 150,
+    "disponible": true,
+    "imagen": "https://via.placeholder.com/300x200?text=Habitacion+Sencilla"
+  },
+  {
+    "id": 102,
+    "hotelId": 1,
+    "tipo": "Doble",
+    "capacidad": 2,
+    "precio": 250,
+    "disponible": true,
+    "imagen": "https://via.placeholder.com/300x200?text=Habitacion+Doble"
+  },
+  {
+    "id": 201,
+    "hotelId": 2,
+    "tipo": "Suite",
+    "capacidad": 4,
+    "precio": 400,
+    "disponible": false,
+    "imagen": "https://via.placeholder.com/300x200?text=Suite+Familiar"
+  }
+]
