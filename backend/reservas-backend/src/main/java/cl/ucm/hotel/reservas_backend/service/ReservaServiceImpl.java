@@ -68,7 +68,7 @@ public class ReservaServiceImpl implements ReservaService {
         
         // Calculate total price
         long days = ChronoUnit.DAYS.between(dto.getFechaCheckIn(), dto.getFechaCheckOut());
-        double total = (habitacion.getPrecioPorNoche() * days) + servicios.stream().mapToDouble(Servicio::getPrecio).sum();
+        double total = (habitacion.getPrecioPorNoche() * days) + servicios.stream().mapToDouble(s -> s.getPrecio() != null ? s.getPrecio() : 0.0).sum();
         reserva.setPrecioTotal(total);
 
         return mapToDto(reservaRepository.save(reserva));
@@ -96,7 +96,7 @@ public class ReservaServiceImpl implements ReservaService {
         reserva.setServicios(servicios);
         
         long days = ChronoUnit.DAYS.between(dto.getFechaCheckIn(), dto.getFechaCheckOut());
-        double total = (habitacion.getPrecioPorNoche() * days) + servicios.stream().mapToDouble(Servicio::getPrecio).sum();
+        double total = (habitacion.getPrecioPorNoche() * days) + servicios.stream().mapToDouble(s -> s.getPrecio() != null ? s.getPrecio() : 0.0).sum();
         reserva.setPrecioTotal(total);
 
         return mapToDto(reservaRepository.save(reserva));
