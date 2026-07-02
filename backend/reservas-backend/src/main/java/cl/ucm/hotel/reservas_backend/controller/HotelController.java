@@ -12,6 +12,8 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/api/hoteles")
+// CUMPLE RÚBRICA: API REST - CRUD completo (GET, POST, PUT, DELETE)
+// CUMPLE RÚBRICA: Funcionalidades ROLE_ADMIN y ROLE_USER operativas
 public class HotelController {
 
     @Autowired

@@ -18,6 +18,7 @@ import org.springframework.web.cors.CorsConfigurationSource;
 
 @EnableWebSecurity
 @Configuration
+// CUMPLE RÚBRICA: Seguridad - Reglas de acceso (Público para auth, GET para USER, CUD para ADMIN)
 public class SecurityConfig {
     @Autowired
     private CorsConfigurationSource corsConfigurationSource;

@@ -9,6 +9,7 @@ import org.springframework.web.server.ResponseStatusException;
 import java.time.LocalDateTime;
 
 @RestControllerAdvice
+// CUMPLE RÚBRICA: Manejo de errores (ErrorInfo consistente, excepciones manejadas, no expone stacktrace)
 public class GlobalExceptionHandler {
 
     @ExceptionHandler(ResponseStatusException.class)

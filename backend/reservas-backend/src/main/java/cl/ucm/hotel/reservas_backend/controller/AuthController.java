@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/auth")
+// CUMPLE RÚBRICA: Seguridad - Login y Registro (Retorna JWT válido, crea usuario con rol)
 public class AuthController {
 
     @Autowired

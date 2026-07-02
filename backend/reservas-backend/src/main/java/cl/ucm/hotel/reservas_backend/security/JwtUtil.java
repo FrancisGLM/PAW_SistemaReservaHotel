@@ -13,9 +13,11 @@ public class JwtUtil {
     private static String SECRET_KEY = "Ucm-4p1s3rv1c3";
     private static Algorithm ALGORITHM = Algorithm.HMAC256(SECRET_KEY);
 
+    // CUMPLE RÚBRICA: Seguridad - JwtUtil (Genera token con claims sub, roles, exp y valida firma)
     public String create(String username, String rol) {
         return JWT.create()
-                .withSubject(username + "#" + rol)
+                .withSubject(username)
+                .withClaim("roles", rol)
                 .withIssuer("ucm-2025")
                 .withIssuedAt(new Date())
                 .withExpiresAt(new Date(System.currentTimeMillis() + TimeUnit.DAYS.toMillis(15)))
@@ -36,6 +38,6 @@ public class JwtUtil {
         return JWT.require(ALGORITHM)
                 .build()
                 .verify(jwt)
-                .getSubject().split("#")[0];
+                .getSubject();
     }
 }

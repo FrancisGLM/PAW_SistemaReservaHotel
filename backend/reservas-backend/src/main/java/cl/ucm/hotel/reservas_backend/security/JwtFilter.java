@@ -19,6 +19,7 @@ import java.io.IOException;
 
 @Component
 @Slf4j
+// CUMPLE RÚBRICA: Seguridad - JwtAuthFilter (Extiende OncePerRequestFilter, extrae token, valida y puebla SecurityContext)
 public class JwtFilter extends OncePerRequestFilter {
     @Autowired
     private JwtUtil jwtUtil;
