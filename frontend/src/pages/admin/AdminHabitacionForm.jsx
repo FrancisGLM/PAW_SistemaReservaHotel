@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
+import api from '../../api/axiosConfig';
 
 const AdminHabitacionForm = () => {
   const { id } = useParams();
@@ -14,28 +15,69 @@ const AdminHabitacionForm = () => {
     estado: 'Disponible',
     descripcion: ''
   });
+  const [hoteles, setHoteles] = useState([]);
+  const [errorMsg, setErrorMsg] = useState('');
 
   useEffect(() => {
     if (isEditing) {
-      setFormData({
-        hotel: '1', // ID mock del hotel
-        tipo: 'Suite Presidencial',
-        capacidad: '4',
-        precio: '500',
-        estado: 'Disponible',
-        descripcion: 'Una suite de lujo con vista al mar y todas las comodidades premium.'
-      });
+      const fetchHabitacion = async () => {
+        try {
+          const res = await api.get(`/habitaciones/${id}`);
+          setFormData({
+            hotel: res.data.hotelId || '',
+            tipo: res.data.tipo || 'Estandar',
+            capacidad: res.data.capacidad || '2',
+            precio: res.data.precioPorNoche || '',
+            estado: 'Disponible',
+            descripcion: res.data.descripcion || '' // assuming there is descripcion
+          });
+        } catch (error) {
+          console.error(error);
+          setErrorMsg("No se pudo cargar la habitación.");
+        }
+      };
+      fetchHabitacion();
     }
   }, [id, isEditing]);
+
+  useEffect(() => {
+    const fetchHoteles = async () => {
+      try {
+        const res = await api.get('/hoteles');
+        setHoteles(res.data);
+      } catch (error) {
+        console.error("Error al cargar la lista de hoteles", error);
+      }
+    };
+    fetchHoteles();
+  }, []);
 
   const handleChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    alert(`Habitación ${isEditing ? 'actualizada' : 'creada'} correctamente.`);
-    navigate('/admin/habitaciones');
+    setErrorMsg('');
+    try {
+      const payload = {
+        hotelId: parseInt(formData.hotel),
+        numero: Math.floor(Math.random() * 900 + 100).toString(), // Genera un numero aleatorio (ej. 304)
+        tipo: formData.tipo,
+        precioPorNoche: parseFloat(formData.precio),
+        capacidad: parseInt(formData.capacidad),
+      };
+
+      if (isEditing) {
+        await api.put(`/habitaciones/${id}`, payload);
+      } else {
+        await api.post('/habitaciones', payload);
+      }
+      navigate('/admin/habitaciones');
+    } catch (error) {
+      console.error(error);
+      setErrorMsg(error.response?.data?.mensaje || "Error al procesar la solicitud.");
+    }
   };
 
   return (
@@ -52,6 +94,13 @@ const AdminHabitacionForm = () => {
         </h2>
       </div>
 
+      {errorMsg && (
+        <div className="alert alert-danger" style={{ backgroundColor: 'rgba(232, 65, 24, 0.1)', color: '#e84118', border: 'none', borderRadius: '8px' }}>
+          <i className="bi bi-exclamation-circle-fill me-2"></i>
+          {errorMsg}
+        </div>
+      )}
+
       <div style={styles.formCard}>
         <form onSubmit={handleSubmit}>
           <div className="row">
@@ -66,9 +115,9 @@ const AdminHabitacionForm = () => {
                 required
               >
                 <option value="">Seleccione un hotel...</option>
-                <option value="1">Hotel Marriott Premium</option>
-                <option value="2">Resort Hilton Elite</option>
-                <option value="3">Boutique Paris</option>
+                {hoteles.map(h => (
+                  <option key={h.id} value={h.id}>{h.nombre}</option>
+                ))}
               </select>
             </div>
             <div className="col-md-6 mb-3">

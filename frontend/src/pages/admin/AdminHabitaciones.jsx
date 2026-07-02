@@ -1,22 +1,51 @@
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
+import api from '../../api/axiosConfig';
 
 const AdminHabitaciones = () => {
   const navigate = useNavigate();
-  const [habitaciones, setHabitaciones] = React.useState([
-    { id: 101, hotel: 'Hotel Marriott Premium', tipo: 'Suite Presidencial', capacidad: 4, precio: 500, estado: 'Disponible' },
-    { id: 102, hotel: 'Hotel Marriott Premium', tipo: 'Doble Estandar', capacidad: 2, precio: 250, estado: 'Ocupada' },
-    { id: 201, hotel: 'Resort Hilton Elite', tipo: 'Habitación Familiar', capacidad: 5, precio: 350, estado: 'Mantenimiento' },
-    { id: 301, hotel: 'Boutique Paris', tipo: 'Suite Romántica', capacidad: 2, precio: 300, estado: 'Disponible' },
-  ]);
+  const [habitaciones, setHabitaciones] = React.useState([]);
+  const [loading, setLoading] = React.useState(true);
+
+  React.useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const [resHab, resHot] = await Promise.all([
+          api.get('/habitaciones'),
+          api.get('/hoteles')
+        ]);
+        
+        const hotelesMap = resHot.data.reduce((acc, curr) => {
+          acc[curr.id] = curr;
+          return acc;
+        }, {});
+
+        const mappedHabitaciones = resHab.data.map(hab => ({
+          ...hab,
+          hotel: hotelesMap[hab.hotelId] || null,
+          estado: 'Disponible' // Mock de estado ya que no existe en Java
+        }));
+
+        setHabitaciones(mappedHabitaciones);
+      } catch (error) {
+        console.error("Error al cargar datos:", error);
+      } finally {
+        setLoading(false);
+      }
+    };
+    fetchData();
+  }, []);
 
   const handleEdit = (id) => {
     navigate(`/admin/habitaciones/editar/${id}`);
   };
 
-  const handleDelete = (id) => {
-    if (window.confirm('¿Estás seguro de que deseas eliminar esta habitación?')) {
+  const handleDelete = async (id) => {
+    try {
+      await api.delete(`/habitaciones/${id}`);
       setHabitaciones(habitaciones.filter(h => h.id !== id));
+    } catch (error) {
+      console.error("Error al eliminar habitación:", error);
     }
   };
 
@@ -50,10 +79,10 @@ const AdminHabitaciones = () => {
             {habitaciones.map(hab => (
               <tr key={hab.id}>
                 <td>#{hab.id}</td>
-                <td>{hab.hotel}</td>
+                <td>{hab.hotel?.nombre || 'Sin Hotel'}</td>
                 <td><strong>{hab.tipo}</strong></td>
                 <td><i className="bi bi-people-fill me-2"></i>{hab.capacidad} pax</td>
-                <td>${hab.precio}</td>
+                <td>${hab.precioPorNoche}</td>
                 <td>
                   <span style={{
                     ...styles.badge, 

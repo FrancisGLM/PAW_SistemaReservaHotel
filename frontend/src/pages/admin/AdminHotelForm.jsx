@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
+import api from '../../api/axiosConfig';
 
 const AdminHotelForm = () => {
   const { id } = useParams();
@@ -14,18 +15,27 @@ const AdminHotelForm = () => {
     descripcion: '',
     imagen: ''
   });
+  const [errorMsg, setErrorMsg] = useState('');
 
   useEffect(() => {
     if (isEditing) {
-      // Simular carga de datos para edición
-      setFormData({
-        nombre: 'Hotel Marriott Premium',
-        ciudad: 'Madrid',
-        precio: '250',
-        estrellas: '5',
-        descripcion: 'Un hotel de lujo en el centro de la ciudad.',
-        imagen: 'https://via.placeholder.com/800x600'
-      });
+      const fetchHotel = async () => {
+        try {
+          const res = await api.get(`/hoteles/${id}`);
+          setFormData({
+            nombre: res.data.nombre || '',
+            ciudad: res.data.direccion || '',
+            precio: res.data.precioMinimo || '',
+            estrellas: res.data.estrellas || '5',
+            descripcion: res.data.descripcion || '',
+            imagen: res.data.imagen || ''
+          });
+        } catch (error) {
+          console.error("Error al cargar el hotel:", error);
+          setErrorMsg("No se pudo cargar la información del hotel.");
+        }
+      };
+      fetchHotel();
     }
   }, [id, isEditing]);
 
@@ -33,11 +43,27 @@ const AdminHotelForm = () => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    // Aquí iría la llamada a la API
-    alert(`Hotel ${isEditing ? 'actualizado' : 'creado'} correctamente.`);
-    navigate('/admin/hoteles');
+    setErrorMsg('');
+    try {
+      const payload = {
+        nombre: formData.nombre,
+        direccion: formData.ciudad,
+        estrellas: parseInt(formData.estrellas),
+        descripcion: formData.descripcion
+      };
+      
+      if (isEditing) {
+        await api.put(`/hoteles/${id}`, payload);
+      } else {
+        await api.post('/hoteles', payload);
+      }
+      navigate('/admin/hoteles');
+    } catch (error) {
+      console.error(error);
+      setErrorMsg(error.response?.data?.mensaje || "Error al guardar el hotel. Revisa los datos e intenta de nuevo.");
+    }
   };
 
   return (
@@ -53,6 +79,13 @@ const AdminHotelForm = () => {
           {isEditing ? 'Editar Hotel' : 'Nuevo Hotel'}
         </h2>
       </div>
+
+      {errorMsg && (
+        <div className="alert alert-danger" style={{ backgroundColor: 'rgba(232, 65, 24, 0.1)', color: '#e84118', border: 'none', borderRadius: '8px' }}>
+          <i className="bi bi-exclamation-circle-fill me-2"></i>
+          {errorMsg}
+        </div>
+      )}
 
       <div style={styles.formCard}>
         <form onSubmit={handleSubmit}>
@@ -100,7 +133,6 @@ const AdminHotelForm = () => {
                 onChange={handleChange}
                 required 
                 min="10"
-                max="10000"
                 placeholder="0.00"
               />
             </div>

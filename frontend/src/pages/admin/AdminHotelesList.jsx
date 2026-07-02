@@ -27,14 +27,11 @@ const AdminHotelesList = () => {
   };
 
   const handleDelete = async (id) => {
-    if (window.confirm('¿Estás seguro de que deseas eliminar este hotel?')) {
-      try {
-        await api.delete(`/hoteles/${id}`);
-        setHoteles(hoteles.filter(h => h.id !== id));
-      } catch (error) {
-        console.error("Error al eliminar hotel:", error);
-        alert("No se pudo eliminar el hotel.");
-      }
+    try {
+      await api.delete(`/hoteles/${id}`);
+      setHoteles(hoteles.filter(h => h.id !== id));
+    } catch (error) {
+      console.error("Error al eliminar hotel:", error);
     }
   };
 
