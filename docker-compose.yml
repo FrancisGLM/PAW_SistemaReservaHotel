@@ -2,16 +2,17 @@ version: "3.9"
 
 services:
   db:
-    image: postgres:16-alpine
-    container_name: hotel_db
+    image: mysql:8.0
+    container_name: hotel_db_mysql
     environment:
-      POSTGRES_DB: hotel_reservas
-      POSTGRES_USER: hotel_user
-      POSTGRES_PASSWORD: hotel_pass
+      MYSQL_DATABASE: hotel_reservas
+      MYSQL_USER: hotel_user
+      MYSQL_PASSWORD: hotel_pass
+      MYSQL_ROOT_PASSWORD: root_pass
     ports:
-      - "5432:5432"
+      - "3307:3306"
     volumes:
-      - pgdata:/var/lib/postgresql/data
+      - mysql_data:/var/lib/mysql
 
 volumes:
-  pgdata:
+  mysql_data:
