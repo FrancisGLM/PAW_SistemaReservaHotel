@@ -11,4 +11,7 @@ public interface HabitacionService {
     HabitacionDtoOut save(HabitacionDtoIn dto);
     HabitacionDtoOut update(Long id, HabitacionDtoIn dto);
     void delete(Long id);
+    
+    // Valor añadido: Consultar disponibilidad
+    List<HabitacionDtoOut> findDisponibles(java.time.LocalDate checkIn, java.time.LocalDate checkOut);
 }

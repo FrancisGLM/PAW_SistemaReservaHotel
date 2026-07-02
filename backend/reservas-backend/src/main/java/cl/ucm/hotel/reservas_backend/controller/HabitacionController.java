@@ -22,6 +22,14 @@ public class HabitacionController {
         return ResponseEntity.ok(habitacionService.findAll());
     }
 
+    // Endpoint Lógica de Dominio: Consultar disponibilidad
+    @GetMapping("/disponibles")
+    public ResponseEntity<List<HabitacionDtoOut>> getDisponibles(
+            @RequestParam @org.springframework.format.annotation.DateTimeFormat(iso = org.springframework.format.annotation.DateTimeFormat.ISO.DATE) java.time.LocalDate checkIn,
+            @RequestParam @org.springframework.format.annotation.DateTimeFormat(iso = org.springframework.format.annotation.DateTimeFormat.ISO.DATE) java.time.LocalDate checkOut) {
+        return ResponseEntity.ok(habitacionService.findDisponibles(checkIn, checkOut));
+    }
+
     @GetMapping("/{id}")
     public ResponseEntity<HabitacionDtoOut> getById(@PathVariable Long id) {
         return ResponseEntity.ok(habitacionService.findById(id));

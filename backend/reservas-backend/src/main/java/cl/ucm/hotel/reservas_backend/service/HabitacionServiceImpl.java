@@ -75,6 +75,13 @@ public class HabitacionServiceImpl implements HabitacionService {
         habitacionRepository.deleteById(id);
     }
 
+    @Override
+    public List<HabitacionDtoOut> findDisponibles(java.time.LocalDate checkIn, java.time.LocalDate checkOut) {
+        return habitacionRepository.findDisponibles(checkIn, checkOut).stream()
+                .map(this::mapToDto)
+                .collect(Collectors.toList());
+    }
+
     private HabitacionDtoOut mapToDto(Habitacion habitacion) {
         HabitacionDtoOut out = new HabitacionDtoOut();
         out.setId(habitacion.getId());
