@@ -1,5 +1,6 @@
 import React, { createContext, useState, useEffect, useContext } from 'react';
 import { useNavigate } from 'react-router-dom';
+import axios from 'axios';
 import api from '../api/axiosConfig';
 import { jwtDecode } from 'jwt-decode';
 
@@ -38,18 +39,19 @@ export const AuthProvider = ({ children }) => {
   const login = async (email, password) => {
     try {
       // El backend espera 'username' (que en nuestro caso es el email) y 'password'
-      const response = await api.post('/auth/login', { username: email, password });
+      // Usamos axios puro para evitar el prefijo /api de axiosConfig
+      const response = await axios.post('http://localhost:8080/auth/login', { username: email, password });
       
-      const token = response.data.jwt;
+      const token = response.data.token;
       if (!token) throw new Error("No se recibió token");
 
-      // Decodificamos el JWT para extraer el rol y el subject (email)
+      // Decodificamos el JWT para extraer el rol, email y nombre
       const decoded = jwtDecode(token);
       
       const userData = {
-        email: decoded.sub,
-        rol: decoded.roles, // Spring Security envía el claim como 'roles'
-        nombre: decoded.sub.split('@')[0] // Generamos un nombre temporal basado en el correo
+        email: decoded.sub, // En JWT 'sub' es el subject, que guardamos como el username/email
+        nombre: decoded.nombre || decoded.sub.split('@')[0], // Usar nombre real del JWT
+        rol: decoded.roles || 'USER'
       };
 
       setUser(userData);
@@ -71,17 +73,25 @@ export const AuthProvider = ({ children }) => {
     navigate('/login');
   };
 
+  const updateUser = (newUserData) => {
+    const updated = { ...user, ...newUserData };
+    setUser(updated);
+    localStorage.setItem('buhotel_user', JSON.stringify(updated));
+  };
+
   const register = async (userData) => {
     try {
-      // El backend espera: nombre, username (email), password, rol
+      // El backend espera: username (email), email, password, nombre y rol
       const payload = {
-        nombre: userData.nombre,
         username: userData.email,
+        email: userData.email,
+        nombre: userData.nombre, // Ahora enviamos el nombre real
         password: userData.password,
         rol: "USER" // Por defecto, todos los registros públicos son USER
       };
       
-      await api.post('/auth/register', payload);
+      // Usamos axios puro para evitar el prefijo /api de axiosConfig
+      await axios.post('http://localhost:8080/auth/register', payload);
       
       // Tras registrar exitosamente, hacemos login automático
       return await login(userData.email, userData.password);
@@ -97,6 +107,7 @@ export const AuthProvider = ({ children }) => {
     login,
     logout,
     register,
+    updateUser,
     loading
   };
 

@@ -49,6 +49,7 @@ public class AuthServiceImpl implements AuthService {
         usuario.setUsername(registerDtoIn.getUsername());
         usuario.setPassword(passwordEncoder.encode(registerDtoIn.getPassword()));
         usuario.setEmail(registerDtoIn.getEmail());
+        usuario.setNombre(registerDtoIn.getNombre()); // VALOR AGREGADO
 
         Rol rol = rolRepository.findByName(registerDtoIn.getRol())
                 .orElseGet(() -> {
@@ -83,8 +84,10 @@ public class AuthServiceImpl implements AuthService {
         Usuario usuario = usuarioRepository.findById(loginDtoIn.getUsername())
                 .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Usuario no encontrado"));
         
+        
         String rol = usuario.getRoles().isEmpty() ? "USER" : usuario.getRoles().get(0).getName();
-        String jwt = jwtUtil.create(loginDtoIn.getUsername(), rol);
+        // VALOR AGREGADO: se envia el nombre al jwtUtil
+        String jwt = jwtUtil.create(loginDtoIn.getUsername(), rol, usuario.getNombre());
 
         return new LoginDtoOut(jwt);
     }

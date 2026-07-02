@@ -3,8 +3,9 @@ import { useAuth } from '../context/AuthContext';
 import { Link } from 'react-router-dom';
 
 const Perfil = () => {
-  const { user } = useAuth();
+  const { user, updateUser } = useAuth();
   const [isEditing, setIsEditing] = useState(false);
+  const [showSuccess, setShowSuccess] = useState(false);
   const [formData, setFormData] = useState({
     nombre: user?.nombre || '',
     email: user?.email || '',
@@ -19,9 +20,10 @@ const Perfil = () => {
 
   const handleSave = (e) => {
     e.preventDefault();
-    // Simular guardado
+    updateUser(formData);
     setIsEditing(false);
-    alert('¡Perfil actualizado con éxito! (Simulación)');
+    setShowSuccess(true);
+    setTimeout(() => setShowSuccess(false), 3000);
   };
 
   return (
@@ -59,7 +61,14 @@ const Perfil = () => {
           <div className="card border-0" style={{ backgroundColor: 'var(--bg-secondary)', borderRadius: '16px', boxShadow: 'var(--shadow-subtle)' }}>
             <div className="card-body p-4 p-xl-5">
               <div className="d-flex justify-content-between align-items-center mb-4">
-                <h4 className="fw-bold m-0" style={{ color: 'var(--text-primary)' }}>Información Personal</h4>
+                <div className="d-flex align-items-center gap-3">
+                  <h4 className="fw-bold m-0" style={{ color: 'var(--text-primary)' }}>Información Personal</h4>
+                  {showSuccess && (
+                    <span className="badge bg-success bg-opacity-25 text-success border border-success px-2 py-1">
+                      <i className="bi bi-check-circle-fill me-1"></i> Actualizado
+                    </span>
+                  )}
+                </div>
                 <button 
                   className={`btn ${isEditing ? 'btn-outline-danger' : 'btn-outline-gold'} btn-sm px-3`}
                   onClick={() => setIsEditing(!isEditing)}

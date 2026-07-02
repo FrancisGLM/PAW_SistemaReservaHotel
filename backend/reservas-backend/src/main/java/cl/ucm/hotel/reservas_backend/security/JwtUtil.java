@@ -14,10 +14,12 @@ public class JwtUtil {
     private static Algorithm ALGORITHM = Algorithm.HMAC256(SECRET_KEY);
 
     // CUMPLE RÚBRICA: Seguridad - JwtUtil (Genera token con claims sub, roles, exp y valida firma)
-    public String create(String username, String rol) {
+    // VALOR AGREGADO: Se incluye el claim 'nombre'
+    public String create(String username, String rol, String nombre) {
         return JWT.create()
                 .withSubject(username)
                 .withClaim("roles", rol)
+                .withClaim("nombre", nombre)
                 .withIssuer("ucm-2025")
                 .withIssuedAt(new Date())
                 .withExpiresAt(new Date(System.currentTimeMillis() + TimeUnit.DAYS.toMillis(15)))

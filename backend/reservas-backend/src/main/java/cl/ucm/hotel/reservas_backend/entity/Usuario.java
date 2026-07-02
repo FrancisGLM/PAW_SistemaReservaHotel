@@ -21,6 +21,10 @@ public class Usuario {
     @Column(nullable = false)
     private String email;
 
+    // VALOR AGREGADO: Se añade el campo nombre para integrarse mejor con el Frontend
+    @Column(nullable = true)
+    private String nombre;
+
     @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(
             name = "user_role",
