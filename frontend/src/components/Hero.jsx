@@ -189,7 +189,19 @@ const Hero = ({ title, subtitle, imageUrl, ctaText, onCtaClick }) => {
                   />
                 </div>
                 <div className="form-check form-switch position-absolute" style={{ top: '100%', left: '15px', marginTop: '8px', zIndex: 10 }}>
-                  <input className="form-check-input shadow-none" type="checkbox" role="switch" id="switchFechas" checked={!datesDefined} onChange={() => setDatesDefined(!datesDefined)} style={{ cursor: 'pointer' }} />
+                  <input 
+                    className="form-check-input shadow-none" 
+                    type="checkbox" 
+                    role="switch" 
+                    id="switchFechas" 
+                    checked={!datesDefined} 
+                    onChange={() => setDatesDefined(!datesDefined)} 
+                    style={{ 
+                      cursor: 'pointer',
+                      backgroundColor: !datesDefined ? 'var(--accent-gold)' : 'rgba(255,255,255,0.2)',
+                      borderColor: !datesDefined ? 'var(--accent-gold)' : 'rgba(255,255,255,0.4)'
+                    }} 
+                  />
                   <label className="form-check-label small fw-semibold ms-2" htmlFor="switchFechas" style={{ color: 'var(--text-primary)', cursor: 'pointer' }}>Aún no definí la fecha</label>
                 </div>
               </div>

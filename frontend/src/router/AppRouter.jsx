@@ -12,7 +12,9 @@ import AdminDashboard from '../pages/admin/AdminDashboard';
 import AdminHotelesList from '../pages/admin/AdminHotelesList';
 import AdminHotelForm from '../pages/admin/AdminHotelForm';
 import AdminHabitaciones from '../pages/admin/AdminHabitaciones';
+import AdminHabitacionForm from '../pages/admin/AdminHabitacionForm';
 import AdminReservasList from '../pages/admin/AdminReservasList';
+import AdminReservaForm from '../pages/admin/AdminReservaForm';
 import Configuracion from '../pages/Configuracion';
 import Hoteles from '../pages/Hoteles';
 import Destinos from '../pages/Destinos';
@@ -47,7 +49,10 @@ const AppRouter = () => {
           <Route path="/admin/hoteles/nuevo" element={<AdminHotelForm />} />
           <Route path="/admin/hoteles/editar/:id" element={<AdminHotelForm />} />
           <Route path="/admin/habitaciones" element={<AdminHabitaciones />} />
+          <Route path="/admin/habitaciones/nuevo" element={<AdminHabitacionForm />} />
+          <Route path="/admin/habitaciones/editar/:id" element={<AdminHabitacionForm />} />
           <Route path="/admin/reservas" element={<AdminReservasList />} />
+          <Route path="/admin/reservas/editar/:id" element={<AdminReservaForm />} />
         </Route>
       </Route>
     </Routes>

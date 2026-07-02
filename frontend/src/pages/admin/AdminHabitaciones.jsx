@@ -1,12 +1,24 @@
 import React from 'react';
+import { useNavigate } from 'react-router-dom';
 
 const AdminHabitaciones = () => {
-  const habitaciones = [
+  const navigate = useNavigate();
+  const [habitaciones, setHabitaciones] = React.useState([
     { id: 101, hotel: 'Hotel Marriott Premium', tipo: 'Suite Presidencial', capacidad: 4, precio: 500, estado: 'Disponible' },
     { id: 102, hotel: 'Hotel Marriott Premium', tipo: 'Doble Estandar', capacidad: 2, precio: 250, estado: 'Ocupada' },
     { id: 201, hotel: 'Resort Hilton Elite', tipo: 'Habitación Familiar', capacidad: 5, precio: 350, estado: 'Mantenimiento' },
     { id: 301, hotel: 'Boutique Paris', tipo: 'Suite Romántica', capacidad: 2, precio: 300, estado: 'Disponible' },
-  ];
+  ]);
+
+  const handleEdit = (id) => {
+    navigate(`/admin/habitaciones/editar/${id}`);
+  };
+
+  const handleDelete = (id) => {
+    if (window.confirm('¿Estás seguro de que deseas eliminar esta habitación?')) {
+      setHabitaciones(habitaciones.filter(h => h.id !== id));
+    }
+  };
 
   return (
     <div>
@@ -14,6 +26,7 @@ const AdminHabitaciones = () => {
         <h2 style={{ color: 'var(--text-primary)', margin: 0 }}>Gestión de Habitaciones</h2>
         <button 
           className="btn-marriott" 
+          onClick={() => navigate('/admin/habitaciones/nuevo')}
           style={{ padding: '0.5rem 1rem', fontSize: '0.9rem' }}
         >
           <i className="bi bi-plus-lg me-2"></i> Nueva Habitación
@@ -57,10 +70,10 @@ const AdminHabitaciones = () => {
                   </span>
                 </td>
                 <td className="text-end">
-                  <button style={styles.actionBtn} title="Editar">
+                  <button style={styles.actionBtn} title="Editar" onClick={() => handleEdit(hab.id)}>
                     <i className="bi bi-pencil-square text-warning"></i>
                   </button>
-                  <button style={styles.actionBtn} title="Eliminar">
+                  <button style={styles.actionBtn} title="Eliminar" onClick={() => handleDelete(hab.id)}>
                     <i className="bi bi-trash text-danger"></i>
                   </button>
                 </td>

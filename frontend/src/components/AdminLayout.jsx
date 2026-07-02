@@ -13,6 +13,45 @@ const AdminLayout = () => {
 
   return (
     <div style={styles.layout}>
+      <style>{`
+        .admin-nav-link {
+          padding: 0.8rem 1.5rem;
+          color: var(--text-secondary);
+          text-decoration: none;
+          display: flex;
+          align-items: center;
+          transition: all 0.3s ease;
+          border-left: 4px solid transparent;
+        }
+        .admin-nav-link:hover {
+          background-color: rgba(255, 255, 255, 0.05);
+          color: var(--text-primary);
+        }
+        .admin-nav-link.active {
+          background-color: rgba(194, 155, 98, 0.1);
+          color: var(--accent-gold);
+          border-left-color: var(--accent-gold);
+        }
+        .logout-btn-hover {
+          width: 100%;
+          padding: 0.6rem;
+          background-color: transparent;
+          border: 1px solid var(--border-color);
+          color: var(--text-secondary);
+          border-radius: 6px;
+          cursor: pointer;
+          transition: all 0.3s ease;
+          display: flex;
+          justify-content: center;
+          align-items: center;
+        }
+        .logout-btn-hover:hover {
+          background-color: rgba(220, 53, 69, 0.1);
+          color: #dc3545;
+          border-color: rgba(220, 53, 69, 0.5);
+        }
+      `}</style>
+
       {/* Sidebar */}
       <aside style={styles.sidebar}>
         <div style={styles.sidebarHeader}>
@@ -24,34 +63,22 @@ const AdminLayout = () => {
         </div>
 
         <nav style={styles.nav}>
-          <NavLink 
-            to="/admin/dashboard" 
-            style={({ isActive }) => isActive ? { ...styles.navItem, ...styles.navItemActive } : styles.navItem}
-          >
+          <NavLink to="/admin/dashboard" className="admin-nav-link">
             <i className="bi bi-speedometer2 me-3"></i> Dashboard
           </NavLink>
-          <NavLink 
-            to="/admin/hoteles" 
-            style={({ isActive }) => isActive ? { ...styles.navItem, ...styles.navItemActive } : styles.navItem}
-          >
+          <NavLink to="/admin/hoteles" className="admin-nav-link">
             <i className="bi bi-buildings me-3"></i> Hoteles
           </NavLink>
-          <NavLink 
-            to="/admin/habitaciones" 
-            style={({ isActive }) => isActive ? { ...styles.navItem, ...styles.navItemActive } : styles.navItem}
-          >
+          <NavLink to="/admin/habitaciones" className="admin-nav-link">
             <i className="bi bi-door-open me-3"></i> Habitaciones
           </NavLink>
-          <NavLink 
-            to="/admin/reservas" 
-            style={({ isActive }) => isActive ? { ...styles.navItem, ...styles.navItemActive } : styles.navItem}
-          >
+          <NavLink to="/admin/reservas" className="admin-nav-link">
             <i className="bi bi-calendar-check me-3"></i> Reservas
           </NavLink>
         </nav>
 
         <div style={styles.sidebarFooter}>
-          <button style={styles.logoutBtn} onClick={handleLogout}>
+          <button className="logout-btn-hover" onClick={handleLogout}>
             <i className="bi bi-box-arrow-left me-2"></i> Salir al sitio
           </button>
         </div>
@@ -84,7 +111,7 @@ const styles = {
     display: 'flex',
     flexDirection: 'column',
     position: 'fixed',
-    top: 0,
+    top: '72px',
     bottom: 0,
     left: 0,
     zIndex: 100,
@@ -146,6 +173,7 @@ const styles = {
     flex: 1,
     display: 'flex',
     flexDirection: 'column',
+    marginTop: '72px'
   },
   topbar: {
     height: '70px',

@@ -1,6 +1,9 @@
 import React, { useState, useEffect } from 'react';
 
+import { useNavigate } from 'react-router-dom';
+
 const AdminReservasList = () => {
+  const navigate = useNavigate();
   const [reservas, setReservas] = useState([]);
   const [filteredReservas, setFilteredReservas] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -157,24 +160,34 @@ const AdminReservasList = () => {
                     </td>
                     <td>{reserva.hotel}</td>
                     <td>
-                      <small>In: {reserva.fechaEntrada}</small><br/>
-                      <small>Out: {reserva.fechaSalida}</small>
+                      <i className="bi bi-calendar-event me-2 text-muted"></i>
+                      In: {reserva.checkIn}<br />
+                      <i className="bi bi-calendar-check me-2 text-muted"></i>
+                      Out: {reserva.checkOut}
                     </td>
-                    <td><strong>${reserva.total.toLocaleString()}</strong></td>
+                    <td><strong>${reserva.total}</strong></td>
                     <td>
                       <span style={{
                         ...styles.badge, 
-                        ...getStatusBadgeStyle(reserva.estado)
+                        backgroundColor: 
+                          reserva.estado === 'Completada' ? 'rgba(76, 175, 80, 0.2)' : 
+                          reserva.estado === 'Confirmada' ? 'rgba(33, 150, 243, 0.2)' : 
+                          'rgba(244, 67, 54, 0.2)',
+                        color: 
+                          reserva.estado === 'Completada' ? '#4caf50' : 
+                          reserva.estado === 'Confirmada' ? '#2196f3' : 
+                          '#f44336'
                       }}>
                         {reserva.estado}
                       </span>
                     </td>
                     <td className="text-end">
-                      <button style={styles.actionBtn} title="Ver Detalles">
-                        <i className="bi bi-eye text-info"></i>
-                      </button>
-                      <button style={styles.actionBtn} title="Editar">
-                        <i className="bi bi-pencil-square text-warning"></i>
+                      <button 
+                        style={styles.actionBtn} 
+                        title="Gestionar Estado"
+                        onClick={() => navigate(`/admin/reservas/editar/${reserva.id}`)}
+                      >
+                        <i className="bi bi-gear-fill text-warning"></i>
                       </button>
                     </td>
                   </tr>
