@@ -7,14 +7,19 @@ Para que el proyecto compile y ejecute, asegúrate de tener instalado en tu máq
 - **Java JDK 17** (Verifica con `java -version` en tu terminal).
 - **MySQL Server** (Puede ser XAMPP, MySQL nativo o Docker).
 
-## 2. Configuración de Base de Datos (Muy Importante)
-El archivo `application.properties` ya está configurado, pero tu entorno de MySQL debe coincidir con estos datos o deberás modificarlos localmente:
+## 2. Configuración de Base de Datos (Resolución de Conflictos)
+Durante la fusión de ramas, se determinó que **el Backend funciona exclusivamente sobre MySQL**, descartando la configuración de PostgreSQL que el equipo Frontend tenía en su archivo `docker-compose.yml`. Para que el backend corra en tu entorno, tienes dos opciones:
 
-1. **Puerto MySQL**: Por defecto, la app busca MySQL en el puerto `3307`. Si usas XAMPP u otro MySQL por defecto, probablemente uses el `3306`. Cámbialo en la línea `spring.datasource.url` de `application.properties`.
-2. **Crear la Base de Datos**: Debes abrir tu gestor de MySQL (phpMyAdmin, DBeaver, Workbench) y crear una base de datos vacía llamada exactamente: `hotel_reservas`. No necesitas crear tablas, Spring Data JPA (`ddl-auto=update`) creará las tablas de la rúbrica automáticamente cuando arranques el servidor.
-3. **Usuario y Contraseña**: La aplicación intenta conectarse con el usuario `hotel_user` y contraseña `hotel_pass`. 
-   - **Opción A**: Crear ese usuario en tu MySQL local dándole privilegios sobre la base de datos `hotel_reservas`.
-   - **Opción B**: Cambiar las credenciales en `application.properties` por tu usuario (usualmente `root`) y tu contraseña (usualmente vacía `""`).
+### Opción A: Usar Docker (Recomendada y ya configurada)
+En la raíz del proyecto ahora existe un archivo `docker-compose.yml` unificado. Solo debes abrir una terminal en la raíz y ejecutar:
+`docker-compose up -d`
+Esto levantará un contenedor de MySQL 8.0 en el puerto `3307` con la base de datos `hotel_reservas` y las credenciales `hotel_user` / `hotel_pass` listas para usarse. (Si usas esta opción, no debes cambiar nada en `application.properties`).
+
+### Opción B: Usar MySQL Local (XAMPP, nativo, etc.)
+Si no tienes Docker, debes modificar tu entorno local o el archivo `application.properties`:
+1. **Puerto MySQL**: Por defecto, la app busca MySQL en el puerto `3307`. Cámbialo en la línea `spring.datasource.url` al `3306` si usas XAMPP.
+2. **Crear la Base de Datos**: Crea una base de datos vacía llamada exactamente: `hotel_reservas`. Spring Data JPA (`ddl-auto=update`) creará las tablas automáticamente.
+3. **Usuario y Contraseña**: Cambia las credenciales en `application.properties` por tu usuario local (usualmente `root`) y tu contraseña (usualmente vacía `""`).
 
 ## 3. Elementos Omitidos por el `.gitignore`
 Debido a las buenas prácticas del `.gitignore`, no se han subido las carpetas de compilación ni configuración personal de IDEs. **Esto es completamente normal.** 
