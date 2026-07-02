@@ -3,7 +3,10 @@ import React, { useState, useRef, useEffect } from 'react';
 const PassengerSelector = ({ disabled, theme = 'light' }) => {
   const [isOpen, setIsOpen] = useState(false);
   const [isClosing, setIsClosing] = useState(false);
-  const [rooms, setRooms] = useState([{ adults: 2, childrenAges: [] }]);
+  const [rooms, setRooms] = useState(() => {
+    const saved = localStorage.getItem('buhotel_rooms');
+    return saved ? JSON.parse(saved) : [{ adults: 2, childrenAges: [] }];
+  });
   const dropdownRef = useRef(null);
 
   const closeDropdown = () => {
@@ -23,6 +26,10 @@ const PassengerSelector = ({ disabled, theme = 'light' }) => {
     document.addEventListener("mousedown", handleClickOutside);
     return () => document.removeEventListener("mousedown", handleClickOutside);
   }, [isOpen]);
+
+  useEffect(() => {
+    localStorage.setItem('buhotel_rooms', JSON.stringify(rooms));
+  }, [rooms]);
 
   const handleToggle = () => {
     if (disabled) return;

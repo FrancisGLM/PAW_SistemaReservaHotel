@@ -88,13 +88,36 @@ const CustomDateInput = React.forwardRef(({ value, onClick, disabled }, ref) => 
 });
 
 const Hero = ({ title, subtitle, imageUrl, ctaText, onCtaClick }) => {
-  const [startDate, setStartDate] = useState(null);
-  const [endDate, setEndDate] = useState(null);
-  const [datesDefined, setDatesDefined] = useState(true);
+  const [startDate, setStartDate] = useState(() => {
+    const saved = localStorage.getItem('buhotel_startDate');
+    return saved ? new Date(saved) : null;
+  });
+  const [endDate, setEndDate] = useState(() => {
+    const saved = localStorage.getItem('buhotel_endDate');
+    return saved ? new Date(saved) : null;
+  });
+  const [datesDefined, setDatesDefined] = useState(() => {
+    const saved = localStorage.getItem('buhotel_datesDefined');
+    return saved ? JSON.parse(saved) : true;
+  });
   const [isSearching, setIsSearching] = useState(false);
   const [destinoStr, setDestinoStr] = useState('');
 
   const btnRef = useRef(null);
+
+  useEffect(() => {
+    if (startDate) localStorage.setItem('buhotel_startDate', startDate.toISOString());
+    else localStorage.removeItem('buhotel_startDate');
+  }, [startDate]);
+
+  useEffect(() => {
+    if (endDate) localStorage.setItem('buhotel_endDate', endDate.toISOString());
+    else localStorage.removeItem('buhotel_endDate');
+  }, [endDate]);
+
+  useEffect(() => {
+    localStorage.setItem('buhotel_datesDefined', JSON.stringify(datesDefined));
+  }, [datesDefined]);
 
   const handleSearchClick = () => {
     setIsSearching(true);
