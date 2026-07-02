@@ -1,7 +1,6 @@
-import axios from 'react'; // Wait, axios is just imported. Let's fix this in the code below
-import axiosInstance from 'axios';
+import axios from 'axios';
 
-const api = axiosInstance.create({
+const api = axios.create({
   baseURL: 'http://localhost:8080/api', // Reemplazar con la URL real del backend luego
   headers: {
     'Content-Type': 'application/json',

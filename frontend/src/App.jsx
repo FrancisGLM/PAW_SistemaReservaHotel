@@ -1,5 +1,5 @@
 import React from 'react';
-import { BrowserRouter, useLocation } from 'react-router-dom';
+import { BrowserRouter, useLocation, useNavigate } from 'react-router-dom';
 import { AuthProvider, useAuth } from './context/AuthContext';
 import AppRouter from './router/AppRouter';
 import Navbar from './components/Navbar';
@@ -11,6 +11,19 @@ const MainLayout = () => {
   const location = useLocation();
   const isAuthPage = location.pathname === '/login' || location.pathname === '/register';
   const isAdminPage = location.pathname.startsWith('/admin');
+  const navigate = useNavigate();
+
+  React.useEffect(() => {
+    const handleUnauthorized = () => {
+      logout(); // Asegura limpiar estado de React
+      navigate('/login');
+    };
+
+    window.addEventListener('auth_unauthorized', handleUnauthorized);
+    return () => {
+      window.removeEventListener('auth_unauthorized', handleUnauthorized);
+    };
+  }, [logout, navigate]);
 
   return (
     <div className="app-wrapper d-flex flex-column min-vh-100" style={{ backgroundColor: 'var(--bg-primary)' }}>
