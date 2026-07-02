@@ -122,17 +122,18 @@ const AdminHabitacionForm = () => {
             </div>
             <div className="col-md-6 mb-3">
               <label style={styles.label}>Tipo de Habitación *</label>
-              <input 
-                type="text" 
+              <select 
                 name="tipo"
-                className="form-control" 
+                className="form-select" 
                 style={styles.input}
                 value={formData.tipo}
                 onChange={handleChange}
                 required 
-                minLength="3"
-                placeholder="Ej. Suite Presidencial"
-              />
+              >
+                <option value="Económica">Económica</option>
+                <option value="Estandar">Estandar</option>
+                <option value="Premium">Premium</option>
+              </select>
             </div>
           </div>
 
@@ -176,22 +177,20 @@ const AdminHabitacionForm = () => {
               >
                 <option value="Disponible">Disponible</option>
                 <option value="Ocupada">Ocupada</option>
-                <option value="Mantenimiento">Mantenimiento</option>
+                <option value="En Mantenimiento">En Mantenimiento</option>
               </select>
             </div>
           </div>
 
           <div className="mb-4">
-            <label style={styles.label}>Descripción de Amenidades *</label>
+            <label style={styles.label}>Descripción de Amenidades</label>
             <textarea 
               name="descripcion"
               className="form-control" 
               style={{ ...styles.input, minHeight: '100px' }}
               value={formData.descripcion}
               onChange={handleChange}
-              required 
-              minLength="10"
-              placeholder="Descripción de lo que incluye la habitación..."
+              placeholder="Descripción de lo que incluye la habitación (opcional)..."
             ></textarea>
           </div>
 

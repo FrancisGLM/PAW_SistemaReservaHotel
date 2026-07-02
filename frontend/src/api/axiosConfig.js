@@ -23,11 +23,40 @@ api.interceptors.request.use(
 
 // Interceptor de Respuestas: Atrapa errores 401 y redirige al login
 api.interceptors.response.use(
-  (response) => {
+  async (response) => {
     // Adaptador (VALOR AGREGADO): Inyecta datos simulados ricos (imágenes, precio, amenidades) 
     // en los hoteles que devuelve la API Java para mantener la UI sin necesidad de alterar 
     // la estructura original de las entidades y DTOs evaluados.
     if (response.config.url && response.config.url.includes('/hoteles')) {
+      
+      // Obtener habitaciones reales para calcular el precio del hotel
+      let habitaciones = [];
+      try {
+        const token = localStorage.getItem('buhotel_token');
+        const headers = token ? { Authorization: `Bearer ${token}` } : {};
+        const resHab = await axios.get('http://localhost:8080/api/habitaciones', { headers });
+        habitaciones = resHab.data;
+      } catch (e) {
+        console.error("Error fetching habitaciones for pricing", e);
+      }
+
+      const getHotelPrice = (hotelId) => {
+        const hotelRooms = habitaciones.filter(h => h.hotelId === hotelId);
+        if (hotelRooms.length === 0) return ((hotelId * 4700) % 90000) + 9500; // Fallback matemático
+
+        // Jerarquía de precios: 1. Estandar, 2. Económica, 3. Premium
+        const estandar = hotelRooms.find(h => h.tipo && h.tipo.toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "") === 'estandar');
+        if (estandar) return estandar.precioPorNoche;
+
+        const economica = hotelRooms.find(h => h.tipo && h.tipo.toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "").includes('economica'));
+        if (economica) return economica.precioPorNoche;
+
+        const premium = hotelRooms.find(h => h.tipo && h.tipo.toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "") === 'premium');
+        if (premium) return premium.precioPorNoche;
+
+        return hotelRooms[0].precioPorNoche; // Si tiene otro tipo, retorna la primera
+      };
+
       const hotelImages = [
         "https://images.unsplash.com/photo-1566073771259-6a8506099945?w=800&q=80",
         "https://images.unsplash.com/photo-1582719478250-c89cae4dc85b?w=800&q=80",
@@ -49,7 +78,7 @@ api.interceptors.response.use(
         ...h,
         ubicacion: h.direccion || "Destino Global",
         descripcion: h.descripcion || `Disfruta de una estadía inolvidable en ${h.nombre}, ubicado en el corazón de ${h.direccion || "la ciudad"}. Ofrecemos el mejor servicio para garantizar tu máximo confort.`,
-        precioMinimo: h.precioMinimo || ((h.id * 4700) % 90000) + 9500,
+        precioMinimo: h.precioMinimo || getHotelPrice(h.id),
         imagen: h.imagen || hotelImages[h.id % hotelImages.length],
         amenidades: h.amenidades || (h.id % 2 === 0 ? ["WiFi de Alta Velocidad", "Piscina", "Estacionamiento", "Spa"] : ["WiFi de Alta Velocidad", "Gimnasio"]),
         condiciones: h.condiciones || [

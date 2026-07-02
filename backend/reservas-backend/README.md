@@ -27,9 +27,11 @@ Debido a las buenas prácticas de git, no se han subido las carpetas de compilac
 - Igualmente, recuerda correr `npm install` en la carpeta `frontend/` para recuperar los paquetes de React.
 
 ## 4. Inyección de Datos Masiva (Seed)
-**¡ATENCIÓN!** Para que la interfaz de usuario se vea real y los filtros de la barra lateral cobren vida, **debes poblar la base de datos** con los 60 hoteles que preparamos, los cuales tienen distribución variada de estrellas.
+**¡ATENCIÓN!** Para que la interfaz de usuario se vea real, funcione el sistema de precios dinámicos y los filtros de la barra lateral cobren vida, **debes poblar la base de datos** con los datos semilla.
 
-Una vez que tengas el servidor Java corriendo y las tablas creadas (Hibernate lo hace automático), debes inyectar los hoteles. Abre tu terminal en la **raíz del proyecto** y, si usaste Docker, ejecuta este comando para importar los datos:
+El archivo generador `seed.py` en la raíz del proyecto crea un script SQL (`seed.sql`) que contiene más de 60 hoteles realistas con distribución variada de estrellas. Además, de forma automática, **le asocia a cada hotel 1 habitación aleatoria** con precios, capacidades y tipos lógicos (Estandar, Económica o Premium) asegurando que el cálculo de precios del Frontend funcione.
+
+Una vez que tengas el servidor Java corriendo y las tablas creadas (Hibernate lo hace automático), debes inyectar los datos. Puedes ejecutar el script `seed.py` (usando Python) para generar un `seed.sql` fresco con habitaciones aleatorias, o usar el archivo SQL que ya está en la raíz. Abre tu terminal en la **raíz del proyecto** y, si usaste Docker, ejecuta este comando para importar los datos:
 ```bash
 docker exec -i hotel_db_mysql mysql -u hotel_user -photel_pass hotel_reservas < seed.sql
 ```
