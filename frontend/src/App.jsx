@@ -10,6 +10,7 @@ const MainLayout = () => {
   const { user, logout } = useAuth();
   const location = useLocation();
   const isAuthPage = location.pathname === '/login' || location.pathname === '/register';
+  const isAdminPage = location.pathname.startsWith('/admin');
 
   return (
     <div className="app-wrapper d-flex flex-column min-vh-100" style={{ backgroundColor: 'var(--bg-primary)' }}>
@@ -19,7 +20,7 @@ const MainLayout = () => {
         <AppRouter />
       </div>
 
-      {!isAuthPage && <Footer />}
+      {!isAuthPage && !isAdminPage && <Footer />}
     </div>
   );
 };

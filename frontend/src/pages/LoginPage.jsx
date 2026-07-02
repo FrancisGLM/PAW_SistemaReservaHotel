@@ -5,12 +5,19 @@ import { useAuth } from '../context/AuthContext';
 const LoginPage = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const [showPassword, setShowPassword] = useState(false);
   const [error, setError] = useState('');
-  const { login } = useAuth();
+  const { login, user } = useAuth();
   const navigate = useNavigate();
   const location = useLocation();
 
   const from = location.state?.from?.pathname || '/dashboard';
+
+  React.useEffect(() => {
+    if (user) {
+      navigate(from, { replace: true });
+    }
+  }, [user, navigate, from]);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -24,7 +31,7 @@ const LoginPage = () => {
   };
 
   return (
-    <div className="d-flex min-vh-100" style={{ backgroundColor: 'var(--bg-primary)' }}>
+    <div className="d-flex min-vh-100 page-enter" style={{ backgroundColor: 'var(--bg-primary)' }}>
       {/* Mitad Izquierda - Formulario */}
       <div className="d-flex flex-column justify-content-center align-items-center w-50 p-5 position-relative">
         <Link to="/" className="position-absolute top-0 start-0 m-4 text-decoration-none" style={{ color: 'var(--text-secondary)' }}>
@@ -48,11 +55,11 @@ const LoginPage = () => {
               <label className="form-label small fw-bold text-uppercase" style={{ color: 'var(--text-secondary)', letterSpacing: '1px' }}>Correo Electrónico</label>
               <input 
                 type="email" 
-                className="form-control border-0 shadow-none px-4" 
+                className="form-control px-4 shadow-none auth-input" 
                 placeholder="ejemplo@correo.com"
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
-                style={{ backgroundColor: 'var(--bg-secondary)', color: 'var(--text-primary)', height: '56px', borderRadius: '12px' }}
+                style={{ height: '56px', borderRadius: '12px' }}
                 required
               />
             </div>
@@ -62,15 +69,25 @@ const LoginPage = () => {
                 <label className="form-label small fw-bold text-uppercase m-0" style={{ color: 'var(--text-secondary)', letterSpacing: '1px' }}>Contraseña</label>
                 <Link to="#" className="small text-decoration-none" style={{ color: 'var(--accent-gold)' }}>¿Olvidaste tu contraseña?</Link>
               </div>
-              <input 
-                type="password" 
-                className="form-control border-0 shadow-none px-4" 
-                placeholder="••••••••"
-                value={password}
-                onChange={(e) => setPassword(e.target.value)}
-                style={{ backgroundColor: 'var(--bg-secondary)', color: 'var(--text-primary)', height: '56px', borderRadius: '12px' }}
-                required
-              />
+              <div className="position-relative">
+                <input 
+                  type={showPassword ? "text" : "password"}
+                  className="form-control px-4 shadow-none auth-input" 
+                  placeholder="••••••••"
+                  value={password}
+                  onChange={(e) => setPassword(e.target.value)}
+                  style={{ height: '56px', borderRadius: '12px', paddingRight: '50px' }}
+                  required
+                />
+                <button 
+                  type="button"
+                  className="btn position-absolute top-50 end-0 translate-middle-y border-0"
+                  onClick={() => setShowPassword(!showPassword)}
+                  style={{ zIndex: 5, padding: '0 15px', color: 'rgba(255, 255, 255, 0.6)' }}
+                >
+                  <i className={`bi bi-eye${showPassword ? '-slash' : ''}`}></i>
+                </button>
+              </div>
             </div>
 
             <button type="submit" className="btn btn-marriott w-100 fw-bold text-uppercase mt-2" style={{ height: '56px', letterSpacing: '1px', borderRadius: '12px' }}>

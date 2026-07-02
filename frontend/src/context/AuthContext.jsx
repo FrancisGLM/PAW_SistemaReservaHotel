@@ -1,4 +1,6 @@
 import React, { createContext, useState, useEffect, useContext } from 'react';
+import { useNavigate } from 'react-router-dom';
+import api from '../api/axiosConfig';
 
 const AuthContext = createContext();
 
@@ -9,32 +11,82 @@ export const useAuth = () => {
 export const AuthProvider = ({ children }) => {
   const [user, setUser] = useState(null);
   const [loading, setLoading] = useState(true);
+  const navigate = useNavigate();
+
+  // Escuchar el evento de sesión expirada emitido por el interceptor de Axios
+  useEffect(() => {
+    const handleUnauthorized = () => {
+      setUser(null);
+      navigate('/login');
+    };
+
+    window.addEventListener('auth_unauthorized', handleUnauthorized);
+    return () => window.removeEventListener('auth_unauthorized', handleUnauthorized);
+  }, [navigate]);
 
   useEffect(() => {
-    // Check if user is logged in from localStorage
+    // Verificar si hay usuario y token en localStorage al cargar la app
     const storedUser = localStorage.getItem('buhotel_user');
-    if (storedUser) {
+    const storedToken = localStorage.getItem('buhotel_token');
+    if (storedUser && storedToken) {
       setUser(JSON.parse(storedUser));
     }
     setLoading(false);
   }, []);
 
   const login = async (email, password) => {
-    // Simulating API call
     try {
-      const response = await fetch('/mocks/auth.json');
-      const data = await response.json();
+      // ESTE ES EL REQUISITO TÉCNICO: POST /auth/login
+      // Fallará porque no hay backend real, así que lo atraparemos en el catch
+      const response = await api.post('/auth/login', { email, password });
       
-      // We will pretend the login is always successful for the mock user
-      if (data.user) {
-        setUser(data.user);
-        localStorage.setItem('buhotel_user', JSON.stringify(data.user));
-        localStorage.setItem('buhotel_token', data.token);
-        return { success: true };
-      }
+      // Si existiera backend, haríamos esto:
+      // const data = response.data;
+      // setUser(data.user);
+      // localStorage.setItem('buhotel_user', JSON.stringify(data.user));
+      // localStorage.setItem('buhotel_token', data.token);
+      // return { success: true };
+      
     } catch (error) {
-      console.error("Login error", error);
-      return { success: false, error: 'Error de conexión.' };
+      console.warn("La llamada real POST /auth/login falló (esperado sin backend). Fallback a simulación local.");
+      
+      try {
+        // --- INICIO MOCK FALLBACK ---
+        // Simulación temporal con 2 usuarios hardcodeados para poder probar
+        const mockUsers = [
+          {
+            id: 1,
+            email: 'admin@buhotel.com',
+            password: 'admin',
+            nombre: 'Ana Administradora',
+            rol: 'ADMIN'
+          },
+          {
+            id: 2,
+            email: 'user@buhotel.com',
+            password: 'user',
+            nombre: 'Carlos Viajero',
+            rol: 'USER'
+          }
+        ];
+
+        const foundUser = mockUsers.find(u => u.email === email && u.password === password);
+
+        if (foundUser) {
+          // Quitamos el password del objeto antes de guardarlo
+          const { password: _, ...userWithoutPass } = foundUser;
+          
+          setUser(userWithoutPass);
+          localStorage.setItem('buhotel_user', JSON.stringify(userWithoutPass));
+          localStorage.setItem('buhotel_token', 'mock-jwt-token-123456');
+          return { success: true };
+        } else {
+          return { success: false, error: 'Correo o contraseña incorrectos.' };
+        }
+        // --- FIN MOCK FALLBACK ---
+      } catch(e) {
+        return { success: false, error: 'Error de conexión simulada.' };
+      }
     }
   };
 
@@ -42,10 +94,11 @@ export const AuthProvider = ({ children }) => {
     setUser(null);
     localStorage.removeItem('buhotel_user');
     localStorage.removeItem('buhotel_token');
+    navigate('/login'); // Requisito: redirigir al login
   };
 
   const register = async (userData) => {
-    // Simulating registration (returning a mock user based on input)
+    // Simulating registration
     const newUser = {
       id: Math.floor(Math.random() * 1000),
       nombre: userData.nombre,

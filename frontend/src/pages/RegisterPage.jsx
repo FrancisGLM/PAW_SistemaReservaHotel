@@ -6,6 +6,7 @@ const RegisterPage = () => {
   const [nombre, setNombre] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const [showPassword, setShowPassword] = useState(false);
   const [error, setError] = useState('');
   const { register } = useAuth();
   const navigate = useNavigate();
@@ -29,7 +30,7 @@ const RegisterPage = () => {
   };
 
   return (
-    <div className="d-flex min-vh-100" style={{ backgroundColor: 'var(--bg-primary)' }}>
+    <div className="d-flex min-vh-100 page-enter" style={{ backgroundColor: 'var(--bg-primary)' }}>
       {/* Mitad Izquierda - Imagen Lujosa (Invertido respecto al login para dar variedad) */}
       <div className="w-50 d-none d-lg-block position-relative">
         <div className="position-absolute top-0 start-0 w-100 h-100" style={{
@@ -68,11 +69,11 @@ const RegisterPage = () => {
               <label className="form-label small fw-bold text-uppercase" style={{ color: 'var(--text-secondary)', letterSpacing: '1px' }}>Nombre Completo</label>
               <input 
                 type="text" 
-                className="form-control border-0 shadow-none px-4" 
+                className="form-control px-4 shadow-none auth-input" 
                 placeholder="Ej. Juan Pérez"
                 value={nombre}
                 onChange={(e) => setNombre(e.target.value)}
-                style={{ backgroundColor: 'var(--bg-secondary)', color: 'var(--text-primary)', height: '56px', borderRadius: '12px' }}
+                style={{ height: '56px', borderRadius: '12px' }}
                 required
               />
             </div>
@@ -81,26 +82,36 @@ const RegisterPage = () => {
               <label className="form-label small fw-bold text-uppercase" style={{ color: 'var(--text-secondary)', letterSpacing: '1px' }}>Correo Electrónico</label>
               <input 
                 type="email" 
-                className="form-control border-0 shadow-none px-4" 
+                className="form-control px-4 shadow-none auth-input" 
                 placeholder="ejemplo@correo.com"
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
-                style={{ backgroundColor: 'var(--bg-secondary)', color: 'var(--text-primary)', height: '56px', borderRadius: '12px' }}
+                style={{ height: '56px', borderRadius: '12px' }}
                 required
               />
             </div>
             
             <div className="mb-4">
               <label className="form-label small fw-bold text-uppercase" style={{ color: 'var(--text-secondary)', letterSpacing: '1px' }}>Contraseña</label>
-              <input 
-                type="password" 
-                className="form-control border-0 shadow-none px-4" 
-                placeholder="••••••••"
-                value={password}
-                onChange={(e) => setPassword(e.target.value)}
-                style={{ backgroundColor: 'var(--bg-secondary)', color: 'var(--text-primary)', height: '56px', borderRadius: '12px' }}
-                required
-              />
+              <div className="position-relative">
+                <input 
+                  type={showPassword ? "text" : "password"}
+                  className="form-control px-4 shadow-none auth-input" 
+                  placeholder="••••••••"
+                  value={password}
+                  onChange={(e) => setPassword(e.target.value)}
+                  style={{ height: '56px', borderRadius: '12px', paddingRight: '50px' }}
+                  required
+                />
+                <button 
+                  type="button"
+                  className="btn position-absolute top-50 end-0 translate-middle-y border-0"
+                  onClick={() => setShowPassword(!showPassword)}
+                  style={{ zIndex: 5, padding: '0 15px', color: 'rgba(255, 255, 255, 0.6)' }}
+                >
+                  <i className={`bi bi-eye${showPassword ? '-slash' : ''}`}></i>
+                </button>
+              </div>
               <div className="form-text mt-2" style={{ color: 'var(--text-secondary)' }}>Debe contener al menos 6 caracteres.</div>
             </div>
 

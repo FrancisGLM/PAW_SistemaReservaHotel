@@ -92,15 +92,18 @@ const Hero = ({ title, subtitle, imageUrl, ctaText, onCtaClick }) => {
   const [endDate, setEndDate] = useState(null);
   const [datesDefined, setDatesDefined] = useState(true);
   const [isSearching, setIsSearching] = useState(false);
+  const [destinoStr, setDestinoStr] = useState('');
 
   const btnRef = useRef(null);
 
   const handleSearchClick = () => {
     setIsSearching(true);
     if (onCtaClick) onCtaClick();
+    
+    // Redirect a /resultados
     setTimeout(() => {
-      setIsSearching(false);
-    }, 2000); // Simulate search delay
+      window.location.href = `/resultados${destinoStr ? `?destino=${encodeURIComponent(destinoStr)}` : ''}`;
+    }, 800);
   };
 
   const handleMouseMove = (e) => {
@@ -152,7 +155,14 @@ const Hero = ({ title, subtitle, imageUrl, ctaText, onCtaClick }) => {
                 <label className="form-label small text-uppercase fw-bold" style={{ color: 'var(--text-secondary)', letterSpacing: '1px', fontSize: '0.75rem' }}>Destino</label>
                 <div className="input-group hero-search-group">
                   <span className="input-group-text bg-white border-0" style={{ height: '54px', borderRadius: '8px 0 0 8px' }}><i className="bi bi-geo-alt" style={{ color: 'var(--accent-gold)' }}></i></span>
-                  <input type="text" className="form-control bg-white border-0 shadow-none hero-search-input m-0" placeholder="¿A dónde viajas?" style={{ height: '54px', borderRadius: '0 8px 8px 0' }} />
+                  <input 
+                    type="text" 
+                    className="form-control bg-white border-0 shadow-none hero-search-input m-0" 
+                    placeholder="¿A dónde viajas?" 
+                    value={destinoStr}
+                    onChange={(e) => setDestinoStr(e.target.value)}
+                    style={{ height: '54px', borderRadius: '0 8px 8px 0' }} 
+                  />
                 </div>
               </div>
               <div className="col-lg-4 text-start position-relative">

@@ -74,13 +74,13 @@ const PassengerSelector = ({ disabled, theme = 'light' }) => {
   };
 
   return (
-    <div className="position-relative flex-grow-1 m-0 p-0" style={{ height: '54px' }} ref={dropdownRef}>
+    <div className="position-relative flex-grow-1 m-0 p-0" style={{ height: '48px' }} ref={dropdownRef}>
       <div 
-        className={`form-control border-0 shadow-none hero-search-input w-100 h-100 d-flex align-items-center justify-content-between m-0 ${disabled ? 'input-disabled-state' : (theme === 'dark' ? 'bg-transparent' : 'bg-white')}`} 
-        style={{ borderRadius: '8px', cursor: disabled ? 'not-allowed' : 'pointer' }}
+        className={`form-control border-0 shadow-none hero-search-input w-100 h-100 d-flex align-items-center justify-content-between m-0 ${disabled ? 'input-disabled-state' : (theme === 'dark' ? 'text-white' : 'bg-white')}`} 
+        style={{ borderRadius: '8px', cursor: disabled ? 'not-allowed' : 'pointer', backgroundColor: theme === 'dark' ? 'var(--bg-primary)' : '' }}
         onClick={handleToggle}
       >
-        <div className={`d-flex align-items-center fw-bold ${theme === 'dark' ? '' : 'text-dark'}`} style={{ fontSize: '1rem', color: theme === 'dark' ? 'var(--text-primary)' : '' }}>
+        <div className={`d-flex align-items-center fw-bold ${theme === 'dark' ? '' : 'text-dark'}`} style={{ fontSize: '0.9rem', color: theme === 'dark' ? 'var(--text-primary)' : '' }}>
           <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" style={{ marginRight: '6px', color: 'var(--accent-gold)' }}>
             <path d="M4 10V6a2 2 0 0 1 2-2h12a2 2 0 0 1 2 2v4"></path>
             <path d="M12 4v6"></path>

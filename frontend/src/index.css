@@ -826,3 +826,44 @@ a:hover {
 .similar-hotel-card:hover .similar-hotel-action {
   background-color: var(--accent-gold-hover);
 }
+
+/* Fix Dropdown Item Hover for Dark Theme */
+.dropdown-menu .dropdown-item {
+  transition: background-color 0.2s ease, color 0.2s ease;
+}
+.dropdown-menu .dropdown-item:hover,
+.dropdown-menu .dropdown-item:focus {
+  background-color: rgba(194, 155, 98, 0.15) !important;
+  color: var(--accent-gold) !important;
+}
+
+/* Estilos específicos para inputs de Auth */
+.auth-input {
+  background-color: rgba(255, 255, 255, 0.08) !important;
+  color: #fff !important;
+  border: 1px solid var(--border-color) !important;
+  transition: all 0.3s ease;
+}
+.auth-input::placeholder {
+  color: rgba(255, 255, 255, 0.4) !important;
+}
+.auth-input:focus {
+  background-color: rgba(255, 255, 255, 0.12) !important;
+  border-color: var(--accent-gold) !important;
+  box-shadow: 0 0 0 0.25rem rgba(194, 155, 98, 0.25) !important;
+}
+
+/* Page Transition Animation */
+.page-enter {
+  animation: slideFadeIn 0.5s cubic-bezier(0.25, 0.8, 0.25, 1) forwards;
+}
+@keyframes slideFadeIn {
+  from { opacity: 0; transform: translateY(15px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.placeholder-light::placeholder {
+  color: rgba(255, 255, 255, 0.6) !important;
+  opacity: 1; /* Firefox */
+}
+

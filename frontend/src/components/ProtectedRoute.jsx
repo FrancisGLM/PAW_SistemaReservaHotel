@@ -2,7 +2,7 @@ import React from 'react';
 import { Navigate, Outlet } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
 
-const ProtectedRoute = () => {
+const ProtectedRoute = ({ allowedRoles }) => {
   const { user, loading } = useAuth();
 
   if (loading) {
@@ -15,12 +15,19 @@ const ProtectedRoute = () => {
     );
   }
 
-  // Si no hay usuario, redirige a login
-  if (!user) {
+  const token = localStorage.getItem('buhotel_token');
+
+  // Si no hay usuario o no hay token, redirige a login
+  if (!user || !token) {
     return <Navigate to="/login" replace />;
   }
 
-  // Si hay usuario, renderiza el Outlet (los hijos de la ruta protegida)
+  // Verificar roles
+  if (allowedRoles && !allowedRoles.includes(user.rol)) {
+    return <Navigate to="/" replace />; // O a una página de "No autorizado"
+  }
+
+  // Si hay usuario (y cumple el rol si se especifica), renderiza el Outlet
   return <Outlet />;
 };
 

@@ -12,8 +12,13 @@ const Dashboard = () => {
           <h2 className="fw-bold mb-1" style={{ color: 'var(--text-primary)', fontFamily: 'var(--font-serif)' }}>Hola, {user?.nombre?.split(' ')[0] || 'Viajero'}</h2>
           <p style={{ color: 'var(--text-secondary)' }}>Bienvenido a tu panel de control</p>
         </div>
-        <div className="d-none d-md-block">
-          <Link to="/" className="btn btn-outline-gold px-4 py-2">Explorar Destinos</Link>
+        <div className="d-none d-md-flex gap-3">
+          {user?.rol === 'ADMIN' && (
+            <Link to="/admin/dashboard" className="btn btn-marriott px-4 py-2 d-flex align-items-center gap-2">
+              <i className="bi bi-shield-lock-fill"></i> Panel de Administración
+            </Link>
+          )}
+          <Link to="/hoteles" className="btn btn-outline-gold px-4 py-2">Explorar Destinos</Link>
         </div>
       </div>
 
@@ -29,8 +34,8 @@ const Dashboard = () => {
               <p className="small mb-4" style={{ color: 'var(--text-secondary)' }}>{user?.email}</p>
               
               <div className="d-grid gap-2">
-                <button className="btn btn-marriott">Editar Perfil</button>
-                <button className="btn" style={{ color: 'var(--text-secondary)', border: '1px solid var(--border-color)' }}>Configuración</button>
+                <Link to="/perfil" className="btn btn-marriott">Editar Perfil</Link>
+                <Link to="/configuracion" className="btn btn-outline-light" style={{ borderColor: 'var(--border-color)' }}>Configuración</Link>
               </div>
             </div>
           </div>
