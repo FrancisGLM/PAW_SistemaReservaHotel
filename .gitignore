@@ -5,3 +5,7 @@ referencias/
 .vscode/
 .idea/
 tests/
+.agents
+node_modules/
+dist/
+task.md

@@ -1,0 +1,521 @@
+[
+  {
+    "id": 1,
+    "nombre": "Almacruz Hotel y Centro de Convenciones (Ex Galerías)",
+    "estrellas": 4,
+    "ubicacion": "Santiago de Chile",
+    "precioMinimo": 60048,
+    "descripcion": "El Almacruz Hotel y Centro de Convenciones ofrece una ubicación privilegiada a solo 2.21 km del centro histórico de Santiago. Con instalaciones de primer nivel, incluyendo una espectacular piscina y salones de convenciones, este hotel garantiza confort tanto para viajeros de negocios como de ocio. Su ambiente elegante se combina con la auténtica hospitalidad chilena.",
+    "imagen": "https://media.staticontent.com/media/pictures/078dca32-b9a2-40e3-8242-3c58385571fa/800x600",
+    "amenidades": [
+      "Aire acondicionado",
+      "Piscina Infinity",
+      "WiFi de Alta Velocidad",
+      "Restaurante Gourmet"
+    ],
+    "serviciosDetallados": [
+      {
+        "categoria": "Ideal para tu estancia",
+        "icono": "bi-person",
+        "items": [
+          "Baño privado",
+          "WiFi gratis",
+          "TV de pantalla plana",
+          "Habitaciones sin humo",
+          "Habitaciones familiares",
+          "Ducha"
+        ]
+      },
+      {
+        "categoria": "Baño",
+        "icono": "bi-droplet",
+        "items": [
+          "Papel higiénico",
+          "Bidet",
+          "Baño privado",
+          "WC",
+          "Ducha"
+        ]
+      },
+      {
+        "categoria": "Equipamiento audiovisual",
+        "icono": "bi-tv",
+        "items": [
+          "TV de pantalla plana",
+          "TV por cable"
+        ]
+      },
+      {
+        "categoria": "Internet",
+        "icono": "bi-wifi",
+        "items": [
+          "Hay conexión a internet Wi-Fi disponible en las habitaciones. Gratis."
+        ]
+      },
+      {
+        "categoria": "Aparcamiento",
+        "icono": "bi-p-circle",
+        "items": [
+          "Hay parking privado en el establecimiento."
+        ]
+      },
+      {
+        "categoria": "General",
+        "icono": "bi-info-circle",
+        "items": [
+          "Aire acondicionado",
+          "Calefacción",
+          "Habitaciones sin humo"
+        ]
+      }
+    ],
+    "resenas": [
+      {
+        "nombre": "Ngdc",
+        "pais": "Perú",
+        "bandera": "🇵🇪",
+        "positivo": "Calidad/ precio muy bueno para el precio, muy cómodo, cuenta con ascensores, son amables",
+        "negativo": ""
+      },
+      {
+        "nombre": "Galeano",
+        "pais": "Argentina",
+        "bandera": "🇦🇷",
+        "positivo": "Relacion calidad-precio, es amplio y la ducha muy buena presion",
+        "negativo": "Quizas la zona no es la mas linda"
+      },
+      {
+        "nombre": "Rios",
+        "pais": "Argentina",
+        "bandera": "🇦🇷",
+        "positivo": "Me encanto fue ideal para sorprender a la mujer que amo",
+        "negativo": ""
+      }
+    ],
+    "condiciones": {
+      "checkIn": "de 15:00 a 00:00",
+      "checkOut": "12:00",
+      "advertencias": [
+        "La señal de internet puede ser inestable en algunas zonas del edificio debido a la ubicación."
+      ],
+      "recomendaciones": [
+        "La altura máxima de la entrada de los autos en el estacionamiento es de 2,05m"
+      ]
+    }
+  },
+  {
+    "id": 2,
+    "nombre": "Hotel Bellavista",
+    "estrellas": 4,
+    "ubicacion": "Puerto Varas",
+    "precioMinimo": 50000,
+    "descripcion": "Situado frente al lago y a solo 582 m del centro de Puerto Varas, el Hotel Bellavista ofrece vistas inigualables a los volcanes. Relájate en su piscina o disfruta de paseos por la ciudad de las rosas. Una escapada perfecta con estacionamiento privado y conectividad total.",
+    "imagen": "https://media.staticontent.com/media/pictures/a0b3e482-c44f-4c63-bedc-969143497ff1/800x600",
+    "amenidades": [
+      "Piscina",
+      "WiFi",
+      "Estacionamiento",
+      "Spa & Wellness"
+    ],
+    "serviciosDetallados": [
+      {
+        "categoria": "Ideal para tu estancia",
+        "icono": "bi-person",
+        "items": [
+          "Baño privado",
+          "WiFi gratis",
+          "TV de pantalla plana",
+          "Habitaciones sin humo",
+          "Habitaciones familiares",
+          "Ducha"
+        ]
+      },
+      {
+        "categoria": "Baño",
+        "icono": "bi-droplet",
+        "items": [
+          "Papel higiénico",
+          "Bidet",
+          "Baño privado",
+          "WC",
+          "Ducha"
+        ]
+      },
+      {
+        "categoria": "Equipamiento audiovisual",
+        "icono": "bi-tv",
+        "items": [
+          "TV de pantalla plana",
+          "TV por cable"
+        ]
+      },
+      {
+        "categoria": "Internet",
+        "icono": "bi-wifi",
+        "items": [
+          "Hay conexión a internet Wi-Fi disponible en las habitaciones. Gratis."
+        ]
+      },
+      {
+        "categoria": "Aparcamiento",
+        "icono": "bi-p-circle",
+        "items": [
+          "Hay parking privado en el establecimiento."
+        ]
+      },
+      {
+        "categoria": "General",
+        "icono": "bi-info-circle",
+        "items": [
+          "Aire acondicionado",
+          "Calefacción",
+          "Habitaciones sin humo"
+        ]
+      }
+    ],
+    "resenas": [
+      {
+        "nombre": "Ngdc",
+        "pais": "Perú",
+        "bandera": "🇵🇪",
+        "positivo": "Calidad/ precio muy bueno para el precio, muy cómodo, cuenta con ascensores, son amables",
+        "negativo": ""
+      },
+      {
+        "nombre": "Galeano",
+        "pais": "Argentina",
+        "bandera": "🇦🇷",
+        "positivo": "Relacion calidad-precio, es amplio y la ducha muy buena presion",
+        "negativo": "Quizas la zona no es la mas linda"
+      },
+      {
+        "nombre": "Rios",
+        "pais": "Argentina",
+        "bandera": "🇦🇷",
+        "positivo": "Me encanto fue ideal para sorprender a la mujer que amo",
+        "negativo": ""
+      }
+    ],
+    "condiciones": {
+      "checkIn": "de 15:00 a 00:00",
+      "checkOut": "12:00",
+      "advertencias": [
+        "La señal de internet puede ser inestable en algunas zonas del edificio debido a la ubicación."
+      ],
+      "recomendaciones": [
+        "La altura máxima de la entrada de los autos en el estacionamiento es de 2,05m"
+      ]
+    }
+  },
+  {
+    "id": 3,
+    "nombre": "Santa Cruz Plaza",
+    "estrellas": 4,
+    "ubicacion": "Santa Cruz",
+    "precioMinimo": 50000,
+    "descripcion": "Ubicado en el corazón del valle vitivinícola, a 1.05 km del centro de Santa Cruz, este hotel combina el encanto colonial con comodidades modernas. Cuenta con gimnasio totalmente equipado, zonas de estar de lujo y acceso rápido a los mejores viñedos de la región.",
+    "imagen": "https://media.staticontent.com/media/pictures/0d54e5ae-4f67-4925-a91e-d76c13134246/800x600",
+    "amenidades": [
+      "WiFi",
+      "Estacionamiento",
+      "Gimnasio 24/7",
+      "Servicio a la habitación"
+    ],
+    "serviciosDetallados": [
+      {
+        "categoria": "Ideal para tu estancia",
+        "icono": "bi-person",
+        "items": [
+          "Baño privado",
+          "WiFi gratis",
+          "TV de pantalla plana",
+          "Habitaciones sin humo",
+          "Habitaciones familiares",
+          "Ducha"
+        ]
+      },
+      {
+        "categoria": "Baño",
+        "icono": "bi-droplet",
+        "items": [
+          "Papel higiénico",
+          "Bidet",
+          "Baño privado",
+          "WC",
+          "Ducha"
+        ]
+      },
+      {
+        "categoria": "Equipamiento audiovisual",
+        "icono": "bi-tv",
+        "items": [
+          "TV de pantalla plana",
+          "TV por cable"
+        ]
+      },
+      {
+        "categoria": "Internet",
+        "icono": "bi-wifi",
+        "items": [
+          "Hay conexión a internet Wi-Fi disponible en las habitaciones. Gratis."
+        ]
+      },
+      {
+        "categoria": "Aparcamiento",
+        "icono": "bi-p-circle",
+        "items": [
+          "Hay parking privado en el establecimiento."
+        ]
+      },
+      {
+        "categoria": "General",
+        "icono": "bi-info-circle",
+        "items": [
+          "Aire acondicionado",
+          "Calefacción",
+          "Habitaciones sin humo"
+        ]
+      }
+    ],
+    "resenas": [
+      {
+        "nombre": "Ngdc",
+        "pais": "Perú",
+        "bandera": "🇵🇪",
+        "positivo": "Calidad/ precio muy bueno para el precio, muy cómodo, cuenta con ascensores, son amables",
+        "negativo": ""
+      },
+      {
+        "nombre": "Galeano",
+        "pais": "Argentina",
+        "bandera": "🇦🇷",
+        "positivo": "Relacion calidad-precio, es amplio y la ducha muy buena presion",
+        "negativo": "Quizas la zona no es la mas linda"
+      },
+      {
+        "nombre": "Rios",
+        "pais": "Argentina",
+        "bandera": "🇦🇷",
+        "positivo": "Me encanto fue ideal para sorprender a la mujer que amo",
+        "negativo": ""
+      }
+    ],
+    "condiciones": {
+      "checkIn": "de 15:00 a 00:00",
+      "checkOut": "12:00",
+      "advertencias": [
+        "La señal de internet puede ser inestable en algunas zonas del edificio debido a la ubicación."
+      ],
+      "recomendaciones": [
+        "La altura máxima de la entrada de los autos en el estacionamiento es de 2,05m"
+      ]
+    }
+  },
+  {
+    "id": 4,
+    "nombre": "Hotel Sommelier",
+    "estrellas": 3,
+    "ubicacion": "Santiago de Chile",
+    "precioMinimo": 60574,
+    "descripcion": "Un hotel boutique moderno y céntrico (a 2.36 km del núcleo de la ciudad). Perfecto para los amantes de la buena gastronomía urbana y el vino. Habitaciones con aire acondicionado, camas de lujo y Wi-Fi rápido para mantenerse siempre conectado.",
+    "imagen": "https://media.staticontent.com/media/pictures/b9785c56-8d5a-4cd7-b782-97060961f0eb/800x600",
+    "amenidades": [
+      "Aire acondicionado",
+      "WiFi",
+      "Bar panorámico"
+    ],
+    "serviciosDetallados": [
+      {
+        "categoria": "Ideal para tu estancia",
+        "icono": "bi-person",
+        "items": [
+          "Baño privado",
+          "WiFi gratis",
+          "TV de pantalla plana",
+          "Habitaciones sin humo",
+          "Habitaciones familiares",
+          "Ducha"
+        ]
+      },
+      {
+        "categoria": "Baño",
+        "icono": "bi-droplet",
+        "items": [
+          "Papel higiénico",
+          "Bidet",
+          "Baño privado",
+          "WC",
+          "Ducha"
+        ]
+      },
+      {
+        "categoria": "Equipamiento audiovisual",
+        "icono": "bi-tv",
+        "items": [
+          "TV de pantalla plana",
+          "TV por cable"
+        ]
+      },
+      {
+        "categoria": "Internet",
+        "icono": "bi-wifi",
+        "items": [
+          "Hay conexión a internet Wi-Fi disponible en las habitaciones. Gratis."
+        ]
+      },
+      {
+        "categoria": "Aparcamiento",
+        "icono": "bi-p-circle",
+        "items": [
+          "Hay parking privado en el establecimiento."
+        ]
+      },
+      {
+        "categoria": "General",
+        "icono": "bi-info-circle",
+        "items": [
+          "Aire acondicionado",
+          "Calefacción",
+          "Habitaciones sin humo"
+        ]
+      }
+    ],
+    "resenas": [
+      {
+        "nombre": "Ngdc",
+        "pais": "Perú",
+        "bandera": "🇵🇪",
+        "positivo": "Calidad/ precio muy bueno para el precio, muy cómodo, cuenta con ascensores, son amables",
+        "negativo": ""
+      },
+      {
+        "nombre": "Galeano",
+        "pais": "Argentina",
+        "bandera": "🇦🇷",
+        "positivo": "Relacion calidad-precio, es amplio y la ducha muy buena presion",
+        "negativo": "Quizas la zona no es la mas linda"
+      },
+      {
+        "nombre": "Rios",
+        "pais": "Argentina",
+        "bandera": "🇦🇷",
+        "positivo": "Me encanto fue ideal para sorprender a la mujer que amo",
+        "negativo": ""
+      }
+    ],
+    "condiciones": {
+      "checkIn": "de 15:00 a 00:00",
+      "checkOut": "12:00",
+      "advertencias": [
+        "La señal de internet puede ser inestable en algunas zonas del edificio debido a la ubicación."
+      ],
+      "recomendaciones": [
+        "La altura máxima de la entrada de los autos en el estacionamiento es de 2,05m"
+      ]
+    }
+  },
+  {
+    "id": 5,
+    "nombre": "Royalty Barra Hotel",
+    "estrellas": 4,
+    "ubicacion": "Río de Janeiro",
+    "precioMinimo": 79533,
+    "descripcion": "Vive la magia de Río de Janeiro en el Royalty Barra Hotel. A pesar de estar alejado del bullicio del centro (15.29 km), ofrece vistas al mar, una piscina refrescante y habitaciones climatizadas para combatir el calor tropical. Tu paraíso personal en Brasil.",
+    "imagen": "https://media.staticontent.com/media/pictures/a3b43c24-af48-4cac-a2c0-d5e3cfa399c0/800x600",
+    "amenidades": [
+      "Aire acondicionado",
+      "Piscina Infinity",
+      "WiFi de Alta Velocidad",
+      "Bar en la playa"
+    ],
+    "serviciosDetallados": [
+      {
+        "categoria": "Ideal para tu estancia",
+        "icono": "bi-person",
+        "items": [
+          "Baño privado",
+          "WiFi gratis",
+          "TV de pantalla plana",
+          "Habitaciones sin humo",
+          "Habitaciones familiares",
+          "Ducha"
+        ]
+      },
+      {
+        "categoria": "Baño",
+        "icono": "bi-droplet",
+        "items": [
+          "Papel higiénico",
+          "Bidet",
+          "Baño privado",
+          "WC",
+          "Ducha"
+        ]
+      },
+      {
+        "categoria": "Equipamiento audiovisual",
+        "icono": "bi-tv",
+        "items": [
+          "TV de pantalla plana",
+          "TV por cable"
+        ]
+      },
+      {
+        "categoria": "Internet",
+        "icono": "bi-wifi",
+        "items": [
+          "Hay conexión a internet Wi-Fi disponible en las habitaciones. Gratis."
+        ]
+      },
+      {
+        "categoria": "Aparcamiento",
+        "icono": "bi-p-circle",
+        "items": [
+          "Hay parking privado en el establecimiento."
+        ]
+      },
+      {
+        "categoria": "General",
+        "icono": "bi-info-circle",
+        "items": [
+          "Aire acondicionado",
+          "Calefacción",
+          "Habitaciones sin humo"
+        ]
+      }
+    ],
+    "resenas": [
+      {
+        "nombre": "Ngdc",
+        "pais": "Perú",
+        "bandera": "🇵🇪",
+        "positivo": "Calidad/ precio muy bueno para el precio, muy cómodo, cuenta con ascensores, son amables",
+        "negativo": ""
+      },
+      {
+        "nombre": "Galeano",
+        "pais": "Argentina",
+        "bandera": "🇦🇷",
+        "positivo": "Relacion calidad-precio, es amplio y la ducha muy buena presion",
+        "negativo": "Quizas la zona no es la mas linda"
+      },
+      {
+        "nombre": "Rios",
+        "pais": "Argentina",
+        "bandera": "🇦🇷",
+        "positivo": "Me encanto fue ideal para sorprender a la mujer que amo",
+        "negativo": ""
+      }
+    ],
+    "condiciones": {
+      "checkIn": "de 15:00 a 00:00",
+      "checkOut": "12:00",
+      "advertencias": [
+        "La señal de internet puede ser inestable en algunas zonas del edificio debido a la ubicación."
+      ],
+      "recomendaciones": [
+        "La altura máxima de la entrada de los autos en el estacionamiento es de 2,05m"
+      ]
+    }
+  }
+]
