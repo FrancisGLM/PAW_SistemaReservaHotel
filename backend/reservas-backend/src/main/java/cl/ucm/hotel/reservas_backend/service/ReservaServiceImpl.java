@@ -55,7 +55,8 @@ public class ReservaServiceImpl implements ReservaService {
         Huesped huesped = huespedRepository.findById(dto.getHuespedId())
                 .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Huesped no encontrado"));
                 
-        List<Servicio> servicios = servicioRepository.findAllById(dto.getServicioIds());
+        List<Long> sIds = dto.getServicioIds() == null ? java.util.Collections.emptyList() : dto.getServicioIds();
+        List<Servicio> servicios = servicioRepository.findAllById(sIds);
         
         Reserva reserva = new Reserva();
         reserva.setFechaCheckIn(dto.getFechaCheckIn());
@@ -84,7 +85,8 @@ public class ReservaServiceImpl implements ReservaService {
         Huesped huesped = huespedRepository.findById(dto.getHuespedId())
                 .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Huesped no encontrado"));
                 
-        List<Servicio> servicios = servicioRepository.findAllById(dto.getServicioIds());
+        List<Long> sIds = dto.getServicioIds() == null ? java.util.Collections.emptyList() : dto.getServicioIds();
+        List<Servicio> servicios = servicioRepository.findAllById(sIds);
         
         reserva.setFechaCheckIn(dto.getFechaCheckIn());
         reserva.setFechaCheckOut(dto.getFechaCheckOut());
