@@ -11,4 +11,8 @@ public interface ReservaService {
     ReservaDtoOut save(ReservaDtoIn dto);
     ReservaDtoOut update(Long id, ReservaDtoIn dto);
     void delete(Long id);
+    
+    // Lógica de dominio
+    List<ReservaDtoOut> findByHuespedId(Long huespedId);
+    ReservaDtoOut updateEstado(Long id, String estado);
 }

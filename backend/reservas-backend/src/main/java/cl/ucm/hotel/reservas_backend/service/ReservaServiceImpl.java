@@ -110,6 +110,21 @@ public class ReservaServiceImpl implements ReservaService {
         reservaRepository.deleteById(id);
     }
 
+    @Override
+    public List<ReservaDtoOut> findByHuespedId(Long huespedId) {
+        return reservaRepository.findByHuespedId(huespedId).stream()
+                .map(this::mapToDto)
+                .collect(Collectors.toList());
+    }
+
+    @Override
+    public ReservaDtoOut updateEstado(Long id, String estado) {
+        Reserva reserva = reservaRepository.findById(id)
+                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Reserva no encontrada"));
+        reserva.setEstado(estado);
+        return mapToDto(reservaRepository.save(reserva));
+    }
+
     private ReservaDtoOut mapToDto(Reserva reserva) {
         ReservaDtoOut out = new ReservaDtoOut();
         out.setId(reserva.getId());
