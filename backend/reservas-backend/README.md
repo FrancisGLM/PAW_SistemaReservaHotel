@@ -29,6 +29,12 @@ Abre una terminal en la carpeta `backend/reservas-backend/` y ejecuta:
 
 Si ves el arte ASCII de Spring y el mensaje *"Started ReservasBackendApplication in X seconds"*, el servidor está corriendo en `http://localhost:8080`.
 
-## 5. Notas Adicionales
-- Todo el backend cumple al 100% con la rúbrica (Reglas de negocio, Seguridad JWT, Manejo de errores).
-- Existe un endpoint de prueba para saber que todo está OK: `POST /auth/register` (No requiere token, crea un usuario ADMIN o USER para empezar a probar).
+## 5. Notas para la Integración con el Frontend
+Antes de empezar a conectar la interfaz, ten en cuenta estos dos detalles importantes del flujo de trabajo:
+
+1. **CORS (Puertos)**: Por seguridad, el backend está configurado para aceptar peticiones *únicamente* desde `http://localhost:5173` (puerto por defecto de Vite). Si tu frontend corre en otro puerto (ej. `3000`), tendrás un error de CORS en la consola del navegador. Si esto ocurre, avísame para añadir tu puerto al archivo `CorsConfig.java`.
+2. **Base de Datos Vacía (Seeding)**: Al levantar el proyecto, la base de datos no tendrá información. Para empezar a probar, deberás usar Postman/ThunderClient y hacer un `POST` a `/auth/register` (es un endpoint público libre) para crearte un usuario con rol `ADMIN`. Luego inicia sesión, toma tu Token JWT, y úsalo para crear Hoteles y Habitaciones para poder renderizarlos en el Front.
+
+## 6. Estado del Backend
+- Todo el backend cumple al 100% con la rúbrica académica (Reglas de negocio, Seguridad JWT, Manejo de errores).
+- Existe un endpoint de prueba inicial para saber que todo está OK: `POST /auth/register`.
