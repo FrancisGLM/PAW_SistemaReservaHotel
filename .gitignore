@@ -2,3 +2,5 @@
 .DS_Store
 docs/
 referencias/
+.vscode/
+.idea/
